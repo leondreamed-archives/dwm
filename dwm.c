@@ -2084,8 +2084,8 @@ tagmon(const Arg *arg)
 
 void
 tile(Monitor *m) {
-	unsigned int i, n, h, r, g = 0, mw, my, ty;
-	float mfacts = 0, sfacts = 0;
+	unsigned int i, n, h, g = 0, mw, my, ty;
+	float mfacts = 0, sfacts = 0, r;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
@@ -2105,16 +2105,16 @@ tile(Monitor *m) {
 		mw = m->ww;
 	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if(i < m->nmaster) {
-			r = MIN(n, m->nmaster) - i;
-			h = (m->wh - my - gappx * (r - 1)) / r;
+			r = c->cfact / mfacts;
+			h = (m->wh - my - gappx * (r - 1)) * r;
 			resize(c, m->rmaster ? m->wx + m->ww - mw : m->wx,
 			       m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
 			my += HEIGHT(c) + gappx;
             mfacts -= c->cfact;
 		}
 		else {
-            r = n - i;
-            h = (m->wh - ty - gappx * (r - 1)) / r;
+            r = c->cfact / sfacts;
+            h = (m->wh - ty - gappx * (r - 1)) * r;
             resize(c, m->rmaster ? m->wx : m->wx + mw, m->wy + ty,
                    m->ww - mw - (2 * c->bw), h - (2 * c->bw), 0);
             ty += HEIGHT(c) + gappx;
