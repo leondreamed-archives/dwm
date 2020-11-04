@@ -128,7 +128,7 @@ static Key keys[] = {
         { MODKEY|ShiftMask,     25,    tagmon,         {.i = -1 } },      // comma
         { MODKEY|ShiftMask,     26,    tagmon,         {.i = +1 } },      // period
         { MODKEY,               29,    fullscreen,  {0} },             // f
-        { MODKEY,               45,    togglescratch,  {0} },             // -
+        { MODKEY,               48,    togglescratch,  {0} },             // -
         TAGKEYS(                14,                    0)                 // 1
         TAGKEYS(                17,                    1)                 // 2
         TAGKEYS(                13,                    2)                 // 3
