@@ -93,18 +93,19 @@ static Key keys[] = {
         { MODKEY,               57,    togglebar,      {0} },             // b
         { MODKEY,               54,    focusstack,     {.i = +1 } },      // j
         { MODKEY,               55,    focusstack,     {.i = -1 } },      // k
-        { MODKEY|ShiftMask,               54,    movestack,     {.i = +1 } }, // j
-        { MODKEY|ShiftMask,               55,    movestack,     {.i = -1 } }, // k
+        { MODKEY|ShiftMask,     54,    movestack,     {.i = +1 } }, // j
+        { MODKEY|ShiftMask,     55,    movestack,     {.i = -1 } }, // k
         { MODKEY,               42,    incnmaster,     {.i = +1 } },      // i
         { MODKEY,               43,    incnmaster,     {.i = -1 } },      // d
         { MODKEY,               44,    setmfact,       {.f = -0.05} },    // h
         { MODKEY,               33,    setmfact,       {.f = +0.05} },    // l
-        // { MODKEY,               36,    zoom,           {0} },             // Return
-        // { MODKEY,               23,    view,           {0} },             // Tab
+        // { MODKEY,               23,    view,           {0} },             //
+        // Tab
         { MODKEY|ShiftMask,     53,    killclient,     {0} },             // q
         // { MODKEY,               45,    setlayout,      {.v = &layouts[0]} } // t
         // { MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
         { MODKEY,               58,    focusmaster,      {0} }, // m
+        { MODKEY|ShiftMask,     58,    zoom,           {0} }, // m
         { MODKEY,               48,    togglescratch,      {0} }, // -
         { MODKEY,               65,    setlayout,      {0} },             // space
         { MODKEY|ShiftMask,     65,    togglefloating, {0} },             // space
