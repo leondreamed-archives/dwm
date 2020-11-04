@@ -99,8 +99,7 @@ static const char *termcmd[]  = { "st", NULL };
 #include "movestack.c"
 static Key keys[] = {
         /* modifier             key    function        argument */
-        // { MODKEY,               33,    spawn,          {.v = dmenucmd } }, // p
-        // { MODKEY|ShiftMask,     36,    spawn,          {.v = termcmd } }, // Return
+        { MODKEY,               47,    swapfocus,     {.i = -1 } },      // k
         { MODKEY,               57,    togglebar,      {0} },             // b
         { MODKEY,               54,    focusstack,     {.i = +1 } },      // j
         { MODKEY,               55,    focusstack,     {.i = -1 } },      // k
@@ -120,7 +119,6 @@ static Key keys[] = {
         // { MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
         { MODKEY,               58,    focusmaster,    {0} }, // m
         { MODKEY|ShiftMask,     58,    zoom,           {0} }, // m
-        { MODKEY,               48,    togglescratch,  {0} }, // -
         { MODKEY,               65,    setlayout,      {0} },             // space
         { MODKEY|ShiftMask,     65,    togglefloating, {0} },             // space
         { MODKEY,               16,    comboview,      {.ui = ~0 } },     // 0

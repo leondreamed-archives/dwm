@@ -103,6 +103,7 @@ static Key keys[] = {
         { MODKEY,               57,    togglebar,      {0} },             // b
         { MODKEY,               54,    focusstack,     {.i = +1 } },      // j
         { MODKEY,               55,    focusstack,     {.i = -1 } },      // k
+        { MODKEY,               47,    swapfocus,     {.i = -1 } },      // k
         { MODKEY|ShiftMask,     54,    movestack,      {.i = +1 } }, // j
         { MODKEY|ShiftMask,     55,    movestack,      {.i = -1 } }, // k
         { MODKEY,               42,    incnmaster,     {.i = +1 } },      // i
