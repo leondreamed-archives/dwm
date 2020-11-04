@@ -100,17 +100,18 @@ static Key keys[] = {
 	// { MODKEY,               23,    view,           {0} },             // Tab
 	{ MODKEY|ShiftMask,     53,    killclient,     {0} },             // q
 	{ MODKEY,               45,    setlayout,      {.v = &layouts[0]} }, // t
-	{ MODKEY,               29,    setlayout,      {.v = &layouts[1]} }, // f
+    { MODKEY,               29,    setlayout,      {.v = &layouts[1]} }, // f
 	{ MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
 	{ MODKEY,               65,    setlayout,      {0} },             // space
 	{ MODKEY|ShiftMask,     65,    togglefloating, {0} },             // space
-	// TODO: Continue from here
 	{ MODKEY,               16,    view,           {.ui = ~0 } },     // 0
 	{ MODKEY|ShiftMask,     16,    tag,            {.ui = ~0 } },     // 0
 	{ MODKEY,               25,    focusmon,       {.i = -1 } },      // comma
 	{ MODKEY,               26,    focusmon,       {.i = +1 } },      // period
 	{ MODKEY|ShiftMask,     25,    tagmon,         {.i = -1 } },      // comma
 	{ MODKEY|ShiftMask,     26,    tagmon,         {.i = +1 } },      // period
+	{ MODKEY|ShiftMask,     29,    fullscreen,  {0} },
+	// f
 	TAGKEYS(                14,                    0)                 // 1
 	TAGKEYS(                17,                    1)                 // 2
 	TAGKEYS(                13,                    2)                 // 3
