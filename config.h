@@ -30,15 +30,6 @@ typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
-const char *spcmd3[] = {"keepassxc", NULL };
-static Sp scratchpads[] = {
-	/* name          cmd  */
-	{"spterm",      spcmd1},
-	{"spranger",    spcmd2},
-	{"keepassxc",   spcmd3},
-};
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -50,9 +41,6 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
 	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
-	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
-	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
-	{ NULL,		  "keepassxc",	NULL,		SPTAG(2),		0,			 -1 },
 };
 
 /* layout(s) */
@@ -100,10 +88,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     53,    killclient,     {0} },             // q
 	{ MODKEY,               45,    setlayout,      {.v = &layouts[0]} }, // t
 	{ MODKEY,               29,    setlayout,      {.v = &layouts[1]} }, // f
+	{ MODKEY|ShiftMask,     29,    togglefullsrc,  {0} }, // f
 	{ MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
 	{ MODKEY,               65,    setlayout,      {0} },             // space
 	{ MODKEY|ShiftMask,     65,    togglefloating, {0} },             // space
-	// TODO: Continue from here
 	{ MODKEY,               16,    view,           {.ui = ~0 } },     // 0
 	{ MODKEY|ShiftMask,     16,    tag,            {.ui = ~0 } },     // 0
 	{ MODKEY,               25,    focusmon,       {.i = -1 } },      // comma
