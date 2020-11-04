@@ -48,9 +48,13 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
-	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
+	/* class      instance    title       tags mask     isfloating     isterminal */
+	{ "Gimp",	      NULL,			NULL,		0,				1,			 -1 },
+    { "st", NULL,			NULL,		1 << 1,			0,			 1 },
+    { "qutebrowser",NULL,			NULL,		1 << 2,			0,			 -1 },
+    { "jetbrains",NULL,			NULL,		1 << 3,			0,			 -1 },
+    { "todoist", NULL,			NULL,		1 << 4,			0,			 -1 },
+    { "element", NULL,			NULL,		1 << 9,			0,			 1 },
 	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
 	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
 	{ NULL,		  "keepassxc",	NULL,		SPTAG(2),		0,			 -1 },
@@ -93,8 +97,8 @@ static Key keys[] = {
         { MODKEY,               57,    togglebar,      {0} },             // b
         { MODKEY,               54,    focusstack,     {.i = +1 } },      // j
         { MODKEY,               55,    focusstack,     {.i = -1 } },      // k
-        { MODKEY|ShiftMask,     54,    movestack,     {.i = +1 } }, // j
-        { MODKEY|ShiftMask,     55,    movestack,     {.i = -1 } }, // k
+        { MODKEY|ShiftMask,     54,    movestack,      {.i = +1 } }, // j
+        { MODKEY|ShiftMask,     55,    movestack,      {.i = -1 } }, // k
         { MODKEY,               42,    incnmaster,     {.i = +1 } },      // i
         { MODKEY,               43,    incnmaster,     {.i = -1 } },      // d
         { MODKEY,               44,    setmfact,       {.f = -0.05} },    // h
@@ -104,13 +108,13 @@ static Key keys[] = {
         { MODKEY|ShiftMask,     53,    killclient,     {0} },             // q
         // { MODKEY,               45,    setlayout,      {.v = &layouts[0]} } // t
         // { MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
-        { MODKEY,               58,    focusmaster,      {0} }, // m
+        { MODKEY,               58,    focusmaster,    {0} }, // m
         { MODKEY|ShiftMask,     58,    zoom,           {0} }, // m
-        { MODKEY,               48,    togglescratch,      {0} }, // -
+        { MODKEY,               48,    togglescratch,  {0} }, // -
         { MODKEY,               65,    setlayout,      {0} },             // space
         { MODKEY|ShiftMask,     65,    togglefloating, {0} },             // space
-        { MODKEY,               16,    comboview,           {.ui = ~0 } },     // 0
-        { MODKEY|ShiftMask,     16,    combotag,            {.ui = ~0 } },     // 0
+        { MODKEY,               16,    comboview,      {.ui = ~0 } },     // 0
+        { MODKEY|ShiftMask,     16,    combotag,       {.ui = ~0 } },     // 0
         { MODKEY,               25,    focusmon,       {.i = -1 } },      // comma
         { MODKEY,               26,    focusmon,       {.i = +1 } },      // period
         { MODKEY|ShiftMask,     25,    tagmon,         {.i = -1 } },      // comma
