@@ -1,8 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int gappx     = 1;        /* gap pixel between windows */
+static const unsigned int borderpx  = 5;        /* border pixel of windows */
+static const unsigned int gappx     = 5;        /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int rmaster = 1; /* 1 means master-area is initially on right */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
