@@ -2082,7 +2082,7 @@ tile(Monitor *m) {
 			r = MIN(n, m->nmaster) - i;
 			h = (m->wh - my - gappx * (r - 1)) / r;
 			resize(c, m->rmaster ? m->wx + m->ww - mw : m->wx,
-+			       m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+			       m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
 			my += HEIGHT(c) + gappx;
 		}
 		else {
