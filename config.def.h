@@ -11,7 +11,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
 static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
 static const char *alttrayname      = "tray";    /* Polybar tray instance name */
-static const char *altbarcmd        = "$HOME/bar.sh"; /* Alternate bar launch command */
+static const char *altbarcmd        = "$HOME/scripts/bar.sh"; /* Alternate bar launch command */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
@@ -48,16 +48,26 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
-	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
+	/* class      instance    title       tags mask     isfloating
+	 * isterminal    noswallow monitor*/
+	{ "Gimp",	      NULL,			NULL,		0,				1,
+   -1, 0, 0 },
+    { "st", NULL,			NULL,		1 << 1,			0,			 1, 0, -1 },
+    { "qutebrowser",NULL,			NULL,		1 << 2,			0,
+      -1, 0, -1 },
+    { "jetbrains",NULL,			NULL,		1 << 3,			0,			 -1 ,
+      0, -1 },
+    { "Todoist", NULL,			NULL,		1 << 4,			0,			 -1 ,
+      0, -1 },
+    { "Element", NULL,			NULL,		1 << 9,			0,			 1 ,
+      0, 0 },
 	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
 	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
 	{ NULL,		  "keepassxc",	NULL,		SPTAG(2),		0,			 -1 },
 };
 
 /* layout(s) */
-static const float mfact     = 0.45; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.35; /* factor of master area size [0.05..0 * .95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int attachbelow = 1;    /* 1 means attach after the currently active window */
@@ -72,10 +82,10 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
+	{ MODKEY,                       KEY,   comboview,      {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,           KEY,   toggleview,     {.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,             KEY,   combotag,       {.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask|ShiftMask, KEY,   toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -93,21 +103,27 @@ static Key keys[] = {
         { MODKEY,               57,    togglebar,      {0} },             // b
         { MODKEY,               54,    focusstack,     {.i = +1 } },      // j
         { MODKEY,               55,    focusstack,     {.i = -1 } },      // k
-        { MODKEY|ShiftMask,               54,    movestack,     {.i = +1 } }, // j
-        { MODKEY|ShiftMask,               55,    movestack,     {.i = -1 } }, // k
+        { MODKEY|ShiftMask,     54,    movestack,      {.i = +1 } }, // j
+        { MODKEY|ShiftMask,     55,    movestack,      {.i = -1 } }, // k
         { MODKEY,               42,    incnmaster,     {.i = +1 } },      // i
         { MODKEY,               43,    incnmaster,     {.i = -1 } },      // d
         { MODKEY,               44,    setmfact,       {.f = -0.05} },    // h
         { MODKEY,               33,    setmfact,       {.f = +0.05} },    // l
-        // { MODKEY,               36,    zoom,           {0} },             // Return
-        // { MODKEY,               23,    view,           {0} },             // Tab
+        { MODKEY|ShiftMask,             44,      setcfact,       {.f = +0.25} }, // h
+        { MODKEY|ShiftMask,             33,      setcfact,       {.f = -0.25} }, // l
+        { MODKEY|ShiftMask,             39,      setcfact,       {.f =  0.00} }, // o
+        // { MODKEY,               23,    view,           {0} },             //
+        // Tab
         { MODKEY|ShiftMask,     53,    killclient,     {0} },             // q
-        { MODKEY,               45,    setlayout,      {.v = &layouts[0]} }, // t
-        { MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
+        // { MODKEY,               45,    setlayout,      {.v = &layouts[0]} } // t
+        // { MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
+        { MODKEY,               58,    focusmaster,    {0} }, // m
+        { MODKEY|ShiftMask,     58,    zoom,           {0} }, // m
+        { MODKEY,               48,    togglescratch,  {0} }, // -
         { MODKEY,               65,    setlayout,      {0} },             // space
         { MODKEY|ShiftMask,     65,    togglefloating, {0} },             // space
-        { MODKEY,               16,    view,           {.ui = ~0 } },     // 0
-        { MODKEY|ShiftMask,     16,    tag,            {.ui = ~0 } },     // 0
+        { MODKEY,               16,    comboview,      {.ui = ~0 } },     // 0
+        { MODKEY|ShiftMask,     16,    combotag,       {.ui = ~0 } },     // 0
         { MODKEY,               25,    focusmon,       {.i = -1 } },      // comma
         { MODKEY,               26,    focusmon,       {.i = +1 } },      // period
         { MODKEY|ShiftMask,     25,    tagmon,         {.i = -1 } },      // comma
@@ -136,17 +152,17 @@ static Button buttons[] = {
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
-	{ ClkTagBar,            0,              Button1,        view,           {0} },
+	{ ClkTagBar,            0,              Button1,        comboview,      {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
-	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
+	{ ClkTagBar,            MODKEY,         Button1,        combotag,       {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
 static const char *ipcsockpath = "/tmp/dwm.sock";
 static IPCCommand ipccommands[] = {
-  IPCCOMMAND(  view,                1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  comboview,           1, {ARG_TYPE_UINT}   ),
   IPCCOMMAND(  toggleview,          1,      {ARG_TYPE_UINT}   ),
-  IPCCOMMAND(  tag,                 1,      {ARG_TYPE_UINT}   ),
+  IPCCOMMAND(  combotag,            1, {ARG_TYPE_UINT}   ),
   IPCCOMMAND(  toggletag,           1,      {ARG_TYPE_UINT}   ),
   IPCCOMMAND(  tagmon,              1,      {ARG_TYPE_UINT}   ),
   IPCCOMMAND(  focusmon,            1,      {ARG_TYPE_SINT}   ),
