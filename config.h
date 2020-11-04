@@ -109,6 +109,9 @@ static Key keys[] = {
         { MODKEY,               43,    incnmaster,     {.i = -1 } },      // d
         { MODKEY,               44,    setmfact,       {.f = -0.05} },    // h
         { MODKEY,               33,    setmfact,       {.f = +0.05} },    // l
+        { MODKEY|ShiftMask,             44,      setcfact,       {.f = +0.25} }, // h
+        { MODKEY|ShiftMask,             33,      setcfact,       {.f = -0.25} }, // l
+        { MODKEY|ShiftMask,             39,      setcfact,       {.f =  0.00} }, // o
         // { MODKEY,               23,    view,           {0} },             //
         // Tab
         { MODKEY|ShiftMask,     53,    killclient,     {0} },             // q
