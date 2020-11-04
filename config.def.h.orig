@@ -11,7 +11,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
 static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
 static const char *alttrayname      = "tray";    /* Polybar tray instance name */
-static const char *altbarcmd        = "$HOME/scripts/bar.sh"; /* Alternate bar launch command */
+static const char *altbarcmd        = "$HOME/bar.sh"; /* Alternate bar launch command */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
@@ -60,7 +60,6 @@ static const Rule rules[] = {
 static const float mfact     = 0.45; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int attachbelow = 1;    /* 1 means attach after the currently active window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -102,9 +101,8 @@ static Key keys[] = {
         // { MODKEY,               36,    zoom,           {0} },             // Return
         // { MODKEY,               23,    view,           {0} },             // Tab
         { MODKEY|ShiftMask,     53,    killclient,     {0} },             // q
-        // { MODKEY,               45,    setlayout,      {.v = &layouts[0]} } // t
-        // { MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
-        { MODKEY,               58,    focusmaster,      {0} }, // m
+        { MODKEY,               45,    setlayout,      {.v = &layouts[0]} }, // t
+        { MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
         { MODKEY,               65,    setlayout,      {0} },             // space
         { MODKEY|ShiftMask,     65,    togglefloating, {0} },             // space
         { MODKEY,               16,    view,           {.ui = ~0 } },     // 0
