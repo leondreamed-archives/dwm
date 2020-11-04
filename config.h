@@ -8,7 +8,7 @@ static const int rmaster = 1; /* 1 means master-area is initially on right */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int usealtbar          = 0;        /* 1 means use non-dwm status bar */
+static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
 static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
 static const char *alttrayname      = "tray";    /* Polybar tray instance name */
 static const char *altbarcmd        = "$HOME/bar.sh"; /* Alternate bar launch command */
@@ -92,6 +92,8 @@ static Key keys[] = {
 	{ MODKEY,               57,    togglebar,      {0} },             // b
 	{ MODKEY,               54,    focusstack,     {.i = +1 } },      // j
 	{ MODKEY,               55,    focusstack,     {.i = -1 } },      // k
+    { MODKEY|ShiftMask,               54,    movestack,     {.i = +1 } }, // j
+    { MODKEY|ShiftMask,               55,    movestack,     {.i = -1 } }, // k
 	{ MODKEY,               42,    incnmaster,     {.i = +1 } },      // i
 	{ MODKEY,               43,    incnmaster,     {.i = -1 } },      // d
 	{ MODKEY,               44,    setmfact,       {.f = -0.05} },    // h
