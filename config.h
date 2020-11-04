@@ -57,7 +57,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.45; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.35; /* factor of master area size [0.05..0 * .95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int attachbelow = 1;    /* 1 means attach after the currently active window */
@@ -105,6 +105,7 @@ static Key keys[] = {
         // { MODKEY,               45,    setlayout,      {.v = &layouts[0]} } // t
         // { MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
         { MODKEY,               58,    focusmaster,      {0} }, // m
+        { MODKEY,               48,    togglescratch,      {0} }, // -
         { MODKEY,               65,    setlayout,      {0} },             // space
         { MODKEY|ShiftMask,     65,    togglefloating, {0} },             // space
         { MODKEY,               16,    view,           {.ui = ~0 } },     // 0
