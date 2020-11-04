@@ -57,7 +57,7 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const float mfact     = 0.45; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
@@ -100,7 +100,6 @@ static Key keys[] = {
 	// { MODKEY,               23,    view,           {0} },             // Tab
 	{ MODKEY|ShiftMask,     53,    killclient,     {0} },             // q
 	{ MODKEY,               45,    setlayout,      {.v = &layouts[0]} }, // t
-    { MODKEY,               29,    setlayout,      {.v = &layouts[1]} }, // f
 	{ MODKEY,               58,    setlayout,      {.v = &layouts[2]} }, // m
 	{ MODKEY,               65,    setlayout,      {0} },             // space
 	{ MODKEY|ShiftMask,     65,    togglefloating, {0} },             // space
@@ -110,8 +109,7 @@ static Key keys[] = {
 	{ MODKEY,               26,    focusmon,       {.i = +1 } },      // period
 	{ MODKEY|ShiftMask,     25,    tagmon,         {.i = -1 } },      // comma
 	{ MODKEY|ShiftMask,     26,    tagmon,         {.i = +1 } },      // period
-	{ MODKEY|ShiftMask,     29,    fullscreen,  {0} },
-	// f
+	{ MODKEY,               29,    togglefullscr,  {0} },             // f
 	TAGKEYS(                14,                    0)                 // 1
 	TAGKEYS(                17,                    1)                 // 2
 	TAGKEYS(                13,                    2)                 // 3
