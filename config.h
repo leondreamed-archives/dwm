@@ -1,27 +1,27 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 5;        /* border pixel of windows */
-static const unsigned int gappx     = 5;        /* gap pixel between windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int rmaster = 1; /* 1 means master-area is initially on right */
-static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
-static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
-static const char *alttrayname      = "tray";    /* Polybar tray instance name */
-static const char *altbarcmd        = "$HOME/scripts/bar.sh"; /* Alternate bar launch command */
-static const char *fonts[]          = { "monospace:size=10" };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#002b36";
-static const char col_gray2[]       = "#073642";
-static const char col_gray3[]       = "#93a1a1";
-static const char col_gray4[]       = "#eee8d5";
-static const char col_cyan[]        = "#2aa198";
-static const char col_orange[]      = "#b58900";
-static const char col_urgborder[]   = "#dc322f";
-static const char *colors[][3]      = {
+static const unsigned int borderpx	= 5;		/* border pixel of windows */
+static const unsigned int gappx		= 5;		/* gap pixel between windows */
+static const unsigned int snap		= 32;		/* snap pixel */
+static const int rmaster			= 1;		/* 1 means master-area is initially on right */
+static const int swallowfloating	= 0;		/* 1 means swallow floating windows by default */
+static const int showbar			= 1;		/* 0 means no bar */
+static const int topbar				= 1;		/* 0 means bottom bar */
+static const int usealtbar			= 1;		/* 1 means use non-dwm status bar */
+static const char *altbarclass		= "Polybar";	/* Alternate bar class name */
+static const char *alttrayname		= "tray";		/* Polybar tray instance name */
+static const char *altbarcmd		= "$HOME/scripts/bar.sh";	/* Alternate bar launch command */
+static const char *fonts[]			= { "monospace:size=10" };
+static const char dmenufont[]		= "monospace:size=10";
+static const char col_gray1[]		= "#002b36";
+static const char col_gray2[]		= "#073642";
+static const char col_gray3[]		= "#93a1a1";
+static const char col_gray4[]		= "#eee8d5";
+static const char col_cyan[]		= "#2aa198";
+static const char col_orange[]		= "#b58900";
+static const char col_urgborder[]	= "#dc322f";
+static const char *colors[][3]		= {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_orange  },
@@ -63,25 +63,25 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.35; /* factor of master area size [0.05..0 * .95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int attachbelow = 1;    /* 1 means attach after the currently active window */
+static const float mfact		= 0.35;	/* factor of master area size [0.05..0 * .95] */
+static const int nmaster		= 1;	/* number of clients in master area */
+static const int resizehints	= 1;	/* 1 means respect size hints in tiled resizals */
+static const int attachbelow	= 1;	/* 1 means attach after the currently active window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+	{	"[]=",	tile },			/* first entry is default */
+	{	"><>",	NULL },	/* no layout function means floating behavior */
+	{	"[M]",	monocle },
 };
 
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,   comboview,      {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,   toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,   combotag,       {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask|ShiftMask, KEY,   toggletag,      {.ui = 1 << TAG} },
+	{	MODKEY,							KEY,	comboview,		{.ui = 1 << TAG} }, \
+	{	MODKEY|ControlMask,				KEY,	toggleview,		{.ui = 1 << TAG} }, \
+	{	MODKEY|ShiftMask,				KEY,	combotag,		{.ui = 1 << TAG} }, \
+	{	MODKEY|ControlMask|ShiftMask,	KEY,	toggletag,		{.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
