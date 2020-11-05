@@ -43,7 +43,7 @@ static Sp scratchpads[] = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "-" };
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
@@ -57,6 +57,7 @@ static const Rule rules[] = {
     { "Todoist",			NULL,		NULL,	1 << 3,	0,	-1,	0,	-1 },
     { "Element",			NULL,		NULL,	1 << 4,	0,	1,		0,	0 },
     { "jetbrains-clion",	NULL,		NULL,	1 << 5,	0,	-1,	0,	-1 },
+	{ "joplin",			NULL,		NULL,	1 << 6,	0,	-1,	0,	-1 },
 	{ NULL,				"spterm",	NULL,	SPTAG(0),1,	-1 },
 	{ NULL,				"spfm",		NULL,	SPTAG(1),1,	-1 },
 	{ NULL,				"keepassxc",NULL,	SPTAG(2),0,	-1 },
@@ -73,6 +74,7 @@ static const Layout layouts[] = {
 	{	"[]=",	tile },			/* first entry is default */
 	{	"><>",	NULL },	/* no layout function means floating behavior */
 	{	"[M]",	monocle },
+	{	"[D]",	deck },
 };
 
 /* key definitions */
@@ -94,15 +96,15 @@ static const char *termcmd[]  = { "st", NULL };
 #include "movestack.c"
 static Key keys[] = {
         /* modifier							key		function		argument */
-        { MODKEY,				47,		swapfocus,		{.i = -1 } },		// s
-		{ MODKEY|ShiftMask,	47,		swapmaster,		{.i = -1 } },		// shift+s
+        { MODKEY,				47,		swapfocus,		{.i = -1} },		// s
+		{ MODKEY|ShiftMask,	47,		swapmaster,		{.i = -1} },		// shift+s
 		{ MODKEY,				57,		togglebar,		{0} },			// b
-        { MODKEY,				54,		focusstack,		{.i = +1 } },		// j
-        { MODKEY,				55,		focusstack,		{.i = -1 } },		// k
-        { MODKEY|ShiftMask,	54,		movestack,		{.i = +1 } },		// shift+j
-        { MODKEY|ShiftMask,	55,		movestack,		{.i = -1 } },		// shift+k
-        { MODKEY,				42,		incnmaster,		{.i = +1 } },		// i
-        { MODKEY,				43,		incnmaster,		{.i = -1 } },		// d
+        { MODKEY,				54,		focusstack,		{.i = +1} },		// j
+        { MODKEY,				55,		focusstack,		{.i = -1} },		// k
+        { MODKEY|ShiftMask,	54,		movestack,		{.i = +1} },		// shift+j
+        { MODKEY|ShiftMask,	55,		movestack,		{.i = -1} },		// shift+k
+        { MODKEY,				42,		incnmaster,		{.i = +1} },		// i
+        { MODKEY,				43,		incnmaster,		{.i = -1} },		// d
         { MODKEY,				44,		setmfact,		{.f = -0.05} },		// h
         { MODKEY,				33,		setmfact,		{.f = +0.05} },		// l
         { MODKEY|ShiftMask,	44,		setcfact,		{.f = -0.25} },		// shift+h
@@ -111,13 +113,15 @@ static Key keys[] = {
         { MODKEY|ShiftMask,	53,		killclient,		{0} },			// shift+q
         { MODKEY,				58,		focusmaster,	{0} },			// m
         { MODKEY|ShiftMask,	58,		zoom,			{0} },			// shift+m
+		{ MODKEY|ShiftMask,	43,		setlayout,	{.v = &layouts[3]}},
+		{ MODKEY|ShiftMask,	43,		setlayout,	{.v = &layouts[3]}},
         { MODKEY|ShiftMask,	65,		togglefloating,	{0} },			// shift+space
-        { MODKEY,				16,		comboview,		{.ui = ~0 } },		// 0
-        { MODKEY|ShiftMask,	16,		combotag,		{.ui = ~0 } },		// shift+0
-        { MODKEY,				25,		focusmon,		{.i = -1 } },		// comma
-        { MODKEY,				26,		focusmon,		{.i = +1 } },		// period
-        { MODKEY|ShiftMask,	25,		tagmon,			{.i = -1 } },		// shift+comma
-        { MODKEY|ShiftMask,	26,		tagmon,			{.i = +1 } },		// shift+period
+        { MODKEY,				16,		comboview,		{.ui = ~0} },		// 0
+        { MODKEY|ShiftMask,	16,		combotag,		{.ui = ~0 }},		// shift+0
+        { MODKEY,				25,		focusmon,		{.i = -1} },		// comma
+        { MODKEY,				26,		focusmon,		{.i = +1} },		// period
+        { MODKEY|ShiftMask,	25,		tagmon,			{.i = -1} },		// shift+comma
+        { MODKEY|ShiftMask,	26,		tagmon,			{.i = +1} },		// shift+period
         { MODKEY,				29,		fullscreen,		{0} },			// f
         { MODKEY,				48,		togglescratch,	{0} },			// -
 		{ MODKEY|ShiftMask,	40,		quit,			{0} },			// e
@@ -130,6 +134,7 @@ static Key keys[] = {
         TAGKEYS(                11,                    6)                 // 7
         TAGKEYS(                20,                    7)                 // 8
         TAGKEYS(                15,                    8)                 // 9
+		TAGKEYS(                48,                    9)                 // -
 };
 
 /* button definitions */
