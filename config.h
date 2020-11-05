@@ -113,8 +113,8 @@ static Key keys[] = {
         { MODKEY|ShiftMask,	53,		killclient,		{0} },			// shift+q
         { MODKEY,				58,		focusmaster,	{0} },			// m
         { MODKEY|ShiftMask,	58,		zoom,			{0} },			// shift+m
-		{ MODKEY|ShiftMask,	43,		setlayout,	{.v = &layouts[3]}},
-		{ MODKEY|ShiftMask,	43,		setlayout,	{.v = &layouts[3]}},
+		{ MODKEY|ShiftMask,	45,		setlayout,	{.v = &layouts[0]}},	// shift+t
+		{ MODKEY|ShiftMask,	43,		setlayout,	{.v = &layouts[3]}},	// shift+d
         { MODKEY|ShiftMask,	65,		togglefloating,	{0} },			// shift+space
         { MODKEY,				16,		comboview,		{.ui = ~0} },		// 0
         { MODKEY|ShiftMask,	16,		combotag,		{.ui = ~0 }},		// shift+0
