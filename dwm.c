@@ -256,6 +256,7 @@ static void sigchld(int unused);
 static void spawn(const Arg *arg);
 static void spawnbar();
 static void swapfocus(const Arg *arg);
+static void swapmaster(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
@@ -2094,6 +2095,12 @@ swapfocus(const Arg *arg)
 			restack(selmon);
 		}
 	}
+}
+
+void swapmaster(const Arg *arg)
+{
+	swapfocus(arg);
+	zoom(arg);
 }
 
 void
