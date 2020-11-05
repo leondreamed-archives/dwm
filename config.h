@@ -71,19 +71,19 @@ static const int attachbelow	= 1;	/* 1 means attach after the currently active w
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{	"[T]",	tile },			/* first entry is default */
-	{	"[F]",	NULL },	/* no layout function means floating behavior */
-	{	"[M]",	monocle },
-	{	"[D]",	deck },
+	{ "[T]",	tile },			/* first entry is default */
+	{ "[F]",	NULL },	/* no layout function means floating behavior */
+	{ "[M]",	monocle },
+	{ "[D]",	deck },
 };
 
 /* key definitions */
 #define MODKEY Mod4Mask
 #define TAGKEYS(KEY,TAG) \
-	{	MODKEY,							KEY,	comboview,		{.ui = 1 << TAG} }, \
-	{	MODKEY|ControlMask,				KEY,	toggleview,		{.ui = 1 << TAG} }, \
-	{	MODKEY|ShiftMask,				KEY,	combotag,		{.ui = 1 << TAG} }, \
-	{	MODKEY|ControlMask|ShiftMask,	KEY,	toggletag,		{.ui = 1 << TAG} },
+	{ MODKEY,						KEY,	comboview,		{.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask,			KEY,	toggleview,		{.ui = 1 << TAG} }, \
+	{ MODKEY|ShiftMask,				KEY,	combotag,		{.ui = 1 << TAG} }, \
+	{ MODKEY|ControlMask|ShiftMask,	KEY,	toggletag,		{.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -141,17 +141,17 @@ static Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/*	click                	event mask      button		function		argument */
-	{	ClkLtSymbol,		0,		Button1,	setlayout,		{0} },
-	{	ClkLtSymbol,		0,		Button3,	setlayout,		{.v = &layouts[2]} },
-	{	ClkWinTitle,		0,		Button2,	zoom,			{0} },
-	{	ClkStatusText,		0,		Button2,	spawn,			{.v = termcmd } },
-	{	ClkClientWin,		MODKEY,	Button1,	movemouse,		{0} },
-	{	ClkClientWin,		MODKEY,	Button2,	togglefloating,	{0} },
-	{	ClkClientWin,		MODKEY,	Button1,	resizemouse,	{0} },
-	{	ClkTagBar,			0,		Button1,	comboview,		{0} },
-	{	ClkTagBar,			0,		Button3,	toggleview,		{0} },
-	{	ClkTagBar,			MODKEY,	Button1,	combotag,		{0} },
-	{	ClkTagBar,			MODKEY,	Button3,	toggletag,		{0} },
+	{ ClkLtSymbol,			0,		Button1,	setlayout,		{0} },
+	{ ClkLtSymbol,			0,		Button3,	setlayout,		{.v = &layouts[2]} },
+	{ ClkWinTitle,			0,		Button2,	zoom,			{0} },
+	{ ClkStatusText,		0,		Button2,	spawn,			{.v = termcmd } },
+	{ ClkClientWin,		MODKEY,	Button1,	movemouse,		{0} },
+	{ ClkClientWin,		MODKEY,	Button2,	togglefloating,	{0} },
+	{ ClkClientWin,		MODKEY,	Button3,	resizemouse,	{0} },
+	{ ClkTagBar,			0,		Button1,	comboview,		{0} },
+	{ ClkTagBar,			0,		Button3,	toggleview,		{0} },
+	{ ClkTagBar,			MODKEY,	Button1,	combotag,		{0} },
+	{ ClkTagBar,			MODKEY,	Button3,	toggletag,		{0} },
 };
 
 static const char *ipcsockpath = "/tmp/dwm.sock";
