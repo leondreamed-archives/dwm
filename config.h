@@ -49,19 +49,13 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating
-	 * isterminal    noswallow monitor*/
-	{ "Gimp",	      NULL,			NULL,		0,				1,
-   -1, 0, 0 },
-    { "st", NULL,			NULL,		1 << 0,			0,			 1, 0, -1 },
-    { "qutebrowser",NULL,			NULL,		1 << 1,			0,
-      -1, 0, -1 },
-    { "jetbrains",NULL,			NULL,		1 << 2,			0,			 -1 ,
-      0, -1 },
-    { "Todoist", NULL,			NULL,		1 << 3,			0,			 -1 ,
-      0, -1 },
-    { "Element", NULL,			NULL,		1 << 8,			0,			 1 ,
-      0, 0 },
+	/* class      instance    title       tags mask     isfloating isterminal   noswallow   monitor*/
+	{ "Gimp",       NULL,  NULL,		0,				1, -1, 0, 0 },
+    { "st-256color",NULL,  NULL,		1 << 0,			0,			 1, 0, -1 },
+    { "qutebrowser",NULL,  NULL,		1 << 1,			0, -1, 0, -1 },
+    { "jetbrains",  NULL,  NULL,		1 << 2,			0,			 -1 , 0, -1 },
+    { "Todoist",    NULL,  NULL,	1 << 3,			0,			 -1 , 0, -1 },
+    { "Element",    NULL,  NULL,		1 << 4,			0,			 1 , 0, 0 },
 	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
 	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
 	{ NULL,		  "keepassxc",	NULL,		SPTAG(2),		0,			 -1 },
