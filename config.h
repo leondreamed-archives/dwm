@@ -58,6 +58,7 @@ static const Rule rules[] = {
     { "Element",			NULL,		NULL,	1 << 4,	0,	1,		0,	0 },
     { "jetbrains-clion",	NULL,		NULL,	1 << 5,	0,	-1,	0,	-1 },
 	{ "joplin",			NULL,		NULL,	1 << 6,	0,	-1,	0,	-1 },
+	{ "Slack",			NULL,		NULL,	1 << 7,	0,	-1,	0,	-1 },
 	{ NULL,				"spterm",	NULL,	SPTAG(0),1,	-1 },
 	{ NULL,				"spfm",		NULL,	SPTAG(1),1,	-1 },
 	{ NULL,				"keepassxc",NULL,	SPTAG(2),0,	-1 },
@@ -123,7 +124,7 @@ static Key keys[] = {
         { MODKEY|ShiftMask,	25,		tagmon,			{.i = -1} },		// shift+comma
         { MODKEY|ShiftMask,	26,		tagmon,			{.i = +1} },		// shift+period
         { MODKEY,				29,		fullscreen,		{0} },			// f
-        { MODKEY,				48,		togglescratch,	{0} },			// -
+        { MODKEY,				48,		togglescratch,	{0} },			// c
 		{ MODKEY|ShiftMask,	40,		quit,			{0} },			// e
 		TAGKEYS(                14,                    0)                 // 1
         TAGKEYS(                17,                    1)                 // 2
