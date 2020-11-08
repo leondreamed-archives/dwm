@@ -2186,7 +2186,8 @@ tile(Monitor *m) {
 			h = (m->wh - my) * r;
 			resize(c, m->rmaster ? m->wx + m->ww - mw : m->wx,
 			       m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
-			my += HEIGHT(c);
+			if (my + HEIGHT(c) < m->wh)
+				my += HEIGHT(c);
             mfacts -= c->cfact;
 		}
 		else {
@@ -2194,7 +2195,8 @@ tile(Monitor *m) {
             h = (m->wh - ty) * r;
             resize(c, m->rmaster ? m->wx : m->wx + mw, m->wy + ty,
                    m->ww - mw - (2 * c->bw), h - (2 * c->bw), 0);
-            ty += HEIGHT(c);
+            if (ty + HEIGHT(c) < m->wh)
+				ty += HEIGHT(c);
             sfacts -= c->cfact;
         }
 }
