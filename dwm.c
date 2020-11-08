@@ -2183,18 +2183,18 @@ tile(Monitor *m) {
 	for(i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if(i < m->nmaster) {
 			r = c->cfact / mfacts;
-			h = (m->wh - my - gappx * (r - 1)) * r;
+			h = (m->wh - my) * r;
 			resize(c, m->rmaster ? m->wx + m->ww - mw : m->wx,
 			       m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
-			my += HEIGHT(c) + gappx;
+			my += HEIGHT(c);
             mfacts -= c->cfact;
 		}
 		else {
             r = c->cfact / sfacts;
-            h = (m->wh - ty - gappx * (r - 1)) * r;
+            h = (m->wh - ty) * r;
             resize(c, m->rmaster ? m->wx : m->wx + mw, m->wy + ty,
                    m->ww - mw - (2 * c->bw), h - (2 * c->bw), 0);
-            ty += HEIGHT(c) + gappx;
+            ty += HEIGHT(c);
             sfacts -= c->cfact;
         }
 }
