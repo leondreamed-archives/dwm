@@ -131,7 +131,6 @@ static Key keys[] = {
         TAGKEYS(                11,                    6)                 // 7
         TAGKEYS(                20,                    7)                 // 8
         TAGKEYS(                15,                    8)                 // 9
-		TAGKEYS(                48,                    9)                 // -
 };
 
 /* button definitions */
