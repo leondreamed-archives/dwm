@@ -33,9 +33,11 @@ typedef struct {
 	const void *cmd;
 } Sp;
 const char *spcmd1[] = {"todoist", NULL };
+const char *spcmd2[] = {"joplin-desktop", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"todoist",	spcmd1},
+	{"joplin",	spcmd2},
 };
 
 /* tagging */
@@ -94,24 +96,24 @@ static const char *termcmd[]  = { "st", NULL };
 static Key keys[] = {
         /* modifier							key		function		argument */
         {MODKEY,				47,		swapfocus,		{.i = -1}},		// s
-		{MODKEY|ShiftMask,		47,		swapmaster,		{.i = -1}},		// shift+s
-		{MODKEY,				57,		togglebar,		{0}},		// b
-		{MODKEY,				54,		focusstack,		{.i = +1}},		// j
-		{MODKEY,				55,		focusstack,		{.i = -1}},		// k
-		{MODKEY|ShiftMask,		54,		movestack,		{.i = +1}},		// shift+j
-		{MODKEY|ShiftMask,		55,		movestack,		{.i = -1}},		// shift+k
-		{MODKEY|ShiftMask,		42,		incnmaster,		{.i = +1}},		// shift+i
-		{MODKEY|ShiftMask,		43,		incnmaster,		{.i = -1}},		// shift+d
-		{MODKEY,				44,		setmfact,		{.f = -0.05}},	// h
-		{MODKEY,				33,		setmfact,		{.f = +0.05}},	// l
+	{MODKEY|ShiftMask,		47,		swapmaster,		{.i = -1}},		// shift+s
+	{MODKEY,				57,		togglebar,		{0}},		// b
+	{MODKEY,				54,		focusstack,		{.i = +1}},		// j
+	{MODKEY,				55,		focusstack,		{.i = -1}},		// k
+	{MODKEY|ShiftMask,		54,		movestack,		{.i = +1}},		// shift+j
+	{MODKEY|ShiftMask,		55,		movestack,		{.i = -1}},		// shift+k
+	{MODKEY|ShiftMask,		42,		incnmaster,		{.i = +1}},		// shift+i
+	{MODKEY|ShiftMask,		43,		incnmaster,		{.i = -1}},		// shift+d
+	{MODKEY,				44,		setmfact,		{.f = -0.05}},	// h
+	{MODKEY,				33,		setmfact,		{.f = +0.05}},	// l
         {MODKEY|ShiftMask,		44,		setcfact,		{.f = -0.25}},	// shift+h
         {MODKEY|ShiftMask,		33,		setcfact,		{.f = +0.25}},	// shift+l
         {MODKEY|ShiftMask,		39,		setcfact,		{.f =  0.00}},	// shift+o
         {MODKEY|ShiftMask,		53,		killclient,		{0}},		// shift+q
         {MODKEY,				58,		focusmaster,	{0}},		// m
         {MODKEY|ShiftMask,		58,		zoom,			{0}},		// shift+m
-		{MODKEY|ControlMask,	45,		setlayout,		{.v = &layouts[0]}},	// ctrl+t
-		{MODKEY|ControlMask,	43,		setlayout,		{.v = &layouts[3]}},	// ctrl+d
+	{MODKEY|ControlMask,	45,		setlayout,		{.v = &layouts[0]}},	// ctrl+t
+	{MODKEY|ControlMask,	43,		setlayout,		{.v = &layouts[3]}},	// ctrl+d
         {MODKEY|ShiftMask,		65,		togglefloating,	{0}},		// shift+space
         {MODKEY,				16,		comboview,		{.ui = ~0}},	// 0
         {MODKEY|ShiftMask,		16,		combotag,		{.ui = ~0 }},	// shift+0
@@ -120,9 +122,10 @@ static Key keys[] = {
         {MODKEY|ShiftMask,		25,		tagmon,			{.i = -1}},		// shift+comma
         {MODKEY|ShiftMask,		26,		tagmon,			{.i = +1}},		// shift+period
         {MODKEY,				29,		fullscreen,		{0}},		// f
-        {MODKEY,				48,		togglescratch,	{0}},		// -
-		{MODKEY|ShiftMask,		40,		quit,			{0}},		// e
-		TAGKEYS(                14,                    0)                 // 1
+        {MODKEY|Mod1Mask,		45,		togglescratch,	{0}},		// alt+t
+	{MODKEY|Mod1Mask,		54,		togglescratch,	{1}},		// alt+j
+	{MODKEY|ShiftMask,		40,		quit,			{0}},		// e
+	TAGKEYS(                14,                    0)                 // 1
         TAGKEYS(                17,                    1)                 // 2
         TAGKEYS(                13,                    2)                 // 3
         TAGKEYS(                18,                    3)                 // 4
