@@ -46,18 +46,18 @@ normalizepath(const char *path, char **normal)
   size_t newlen = 0;
 
   while ((match = strchr(walk, '/'))) {
-    // Copy everything between match and walk
-    strncpy(*normal + newlen, walk, match - walk);
-    newlen += match - walk;
-    walk += match - walk;
+	// Copy everything between match and walk
+	strncpy(*normal + newlen, walk, match - walk);
+	newlen += match - walk;
+	walk += match - walk;
 
-    // Skip all repeating slashes
-    while (*walk == '/')
-      walk++;
+	// Skip all repeating slashes
+	while (*walk == '/')
+	  walk++;
 
-    // If not last character in path
-    if (walk != path + len)
-      (*normal)[newlen++] = '/';
+	// If not last character in path
+	if (walk != path + len)
+	  (*normal)[newlen++] = '/';
   }
 
   (*normal)[newlen++] = '\0';
@@ -81,8 +81,8 @@ parentdir(const char *path, char **parent)
 
   // Pointer to last '/'
   if (!(walk = strrchr(normal, '/'))) {
-    free(normal);
-    return -1;
+	free(normal);
+	return -1;
   }
 
   // Get path up to last '/'
@@ -111,44 +111,44 @@ mkdirp(const char *path)
   walk = normal;
 
   while (walk < normal + normallen + 1) {
-    // Get length from walk to next /
-    size_t n = strcspn(walk, "/");
+	// Get length from walk to next /
+	size_t n = strcspn(walk, "/");
 
-    // Skip path /
-    if (n == 0) {
-      walk++;
-      continue;
-    }
+	// Skip path /
+	if (n == 0) {
+	  walk++;
+	  continue;
+	}
 
-    // Length of current path segment
-    size_t curpathlen = walk - normal + n;
-    char curpath[curpathlen + 1];
-    struct stat s;
+	// Length of current path segment
+	size_t curpathlen = walk - normal + n;
+	char curpath[curpathlen + 1];
+	struct stat s;
 
-    // Copy path segment to stat
-    strncpy(curpath, normal, curpathlen);
-    strcpy(curpath + curpathlen, "");
-    int res = stat(curpath, &s);
+	// Copy path segment to stat
+	strncpy(curpath, normal, curpathlen);
+	strcpy(curpath + curpathlen, "");
+	int res = stat(curpath, &s);
 
-    if (res < 0) {
-      if (errno == ENOENT) {
-        DEBUG("Making directory %s\n", curpath);
-        if (mkdir(curpath, 0700) < 0) {
-          fprintf(stderr, "Failed to make directory %s\n", curpath);
-          perror("");
-          free(normal);
-          return -1;
-        }
-      } else {
-        fprintf(stderr, "Error statting directory %s\n", curpath);
-        perror("");
-        free(normal);
-        return -1;
-      }
-    }
+	if (res < 0) {
+	  if (errno == ENOENT) {
+		DEBUG("Making directory %s\n", curpath);
+		if (mkdir(curpath, 0700) < 0) {
+		  fprintf(stderr, "Failed to make directory %s\n", curpath);
+		  perror("");
+		  free(normal);
+		  return -1;
+		}
+	  } else {
+		fprintf(stderr, "Error statting directory %s\n", curpath);
+		perror("");
+		free(normal);
+		return -1;
+	  }
+	}
 
-    // Continue to next path segment
-    walk += n;
+	// Continue to next path segment
+	walk += n;
   }
 
   free(normal);
@@ -160,7 +160,7 @@ int
 nullterminate(char **str, size_t *len)
 {
   if ((*str)[*len - 1] == '\0')
-    return 0;
+	return 0;
 
   (*len)++;
   *str = (char*)realloc(*str, *len * sizeof(char));

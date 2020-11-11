@@ -2,20 +2,20 @@ diff -up a/config.def.h b/config.def.h
 --- a/config.def.h	2020-01-29 00:06:12.415681126 +0100
 +++ b/config.def.h	2020-01-29 13:25:14.167910093 +0100
 @@ -66,6 +66,7 @@ static Key keys[] = {
- 	{ MODKEY,                       XK_b,      togglebar,      {0} },
- 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
- 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
-+	{ MODKEY,                       XK_s,      swapfocus,      {.i = -1 } },
- 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
- 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
- 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
+ 	{ MODKEY,					   XK_b,	  togglebar,	  {0} },
+ 	{ MODKEY,					   XK_j,	  focusstack,	 {.i = +1 } },
+ 	{ MODKEY,					   XK_k,	  focusstack,	 {.i = -1 } },
++	{ MODKEY,					   XK_s,	  swapfocus,	  {.i = -1 } },
+ 	{ MODKEY,					   XK_i,	  incnmaster,	 {.i = +1 } },
+ 	{ MODKEY,					   XK_d,	  incnmaster,	 {.i = -1 } },
+ 	{ MODKEY,					   XK_h,	  setmfact,	   {.f = -0.05} },
 diff -up a/dwm.c b/dwm.c
 --- a/dwm.c	2020-01-29 00:06:12.419014466 +0100
 +++ b/dwm.c	2020-01-29 13:27:20.012744075 +0100
 @@ -111,6 +111,7 @@ typedef struct {
  	void (*arrange)(Monitor *);
  } Layout;
- 
+
 +typedef struct Pertag Pertag;
  struct Monitor {
  	char ltsymbol[16];
@@ -26,7 +26,7 @@ diff -up a/dwm.c b/dwm.c
  	const Layout *lt[2];
 +	Pertag *pertag;
  };
- 
+
  typedef struct {
 @@ -206,6 +208,7 @@ static void seturgent(Client *c, int urg
  static void showhide(Client *c);
@@ -39,7 +39,7 @@ diff -up a/dwm.c b/dwm.c
 @@ -271,6 +274,11 @@ static Window root, wmcheckwin;
  /* configuration, allows nested code to access above variables */
  #include "config.h"
- 
+
 +struct Pertag {
 +	unsigned int curtag, prevtag; /* current and previous tag */
 +	Client *prevclient[LENGTH(tags) + 1];
@@ -47,7 +47,7 @@ diff -up a/dwm.c b/dwm.c
 +
  /* compile-time check if all tags fit into an unsigned int bit array. */
  struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
- 
+
 @@ -641,6 +649,8 @@ createmon(void)
  	m->lt[0] = &layouts[0];
  	m->lt[1] = &layouts[1 % LENGTH(layouts)];
@@ -56,24 +56,24 @@ diff -up a/dwm.c b/dwm.c
 +	m->pertag->curtag = m->pertag->prevtag = 1;
  	return m;
  }
- 
+
 @@ -1012,6 +1022,7 @@ killclient(const Arg *arg)
  		XSetErrorHandler(xerror);
  		XUngrabServer(dpy);
  	}
 +	selmon->pertag->prevclient[selmon->pertag->curtag] = NULL;
  }
- 
+
  void
 @@ -1653,11 +1664,41 @@ spawn(const Arg *arg)
  }
- 
+
  void
 +swapfocus(const Arg *arg)
 +{
 +	if (!selmon->sel)
 +		return;
-+	if(selmon->pertag->prevclient[selmon->pertag->curtag] != NULL 
++	if(selmon->pertag->prevclient[selmon->pertag->curtag] != NULL
 +			&& ISVISIBLE(selmon->pertag->prevclient[selmon->pertag->curtag])){
 +		focus(selmon->pertag->prevclient[selmon->pertag->curtag]);
 +		restack(selmon->pertag->prevclient[selmon->pertag->curtag]->mon);
@@ -98,12 +98,12 @@ diff -up a/dwm.c b/dwm.c
  	if (selmon->sel && arg->ui & TAGMASK) {
  		selmon->sel->tags = arg->ui & TAGMASK;
  		focus(NULL);
-+		
++
 +		selmon->pertag->prevclient[selmon->pertag->curtag] = NULL;
 +		for(tagmask = arg->ui & TAGMASK, tagindex = 1; tagmask!=0; tagmask >>= 1, tagindex++)
 +			if(tagmask & 1)
 +				selmon->pertag->prevclient[tagindex] = NULL;
-+		
++
  		arrange(selmon);
  	}
  }
@@ -113,18 +113,18 @@ diff -up a/dwm.c b/dwm.c
  {
 -	unsigned int newtags;
 +	unsigned int newtags, tagmask, tagindex;
- 
+
  	if (!selmon->sel)
  		return;
 @@ -1730,6 +1771,11 @@ toggletag(const Arg *arg)
  	if (newtags) {
  		selmon->sel->tags = newtags;
  		focus(NULL);
-+		
++
 +		for(tagmask = arg->ui & TAGMASK, tagindex = 1; tagmask!=0; tagmask >>= 1, tagindex++)
 +			if(tagmask & 1)
 +				selmon->pertag->prevclient[tagindex] = NULL;
-+		
++
  		arrange(selmon);
  	}
  }
@@ -133,7 +133,7 @@ diff -up a/dwm.c b/dwm.c
  {
  	unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
 +	int i;
- 
+
  	if (newtagset) {
  		selmon->tagset[selmon->seltags] = newtagset;
 +
@@ -190,13 +190,13 @@ diff -up a/dwm.c b/dwm.c
 +	selmon->pertag->prevclient[selmon->pertag->curtag] = unmodified;
  	arrange(selmon);
  }
- 
+
 @@ -2114,12 +2192,13 @@ void
  zoom(const Arg *arg)
  {
  	Client *c = selmon->sel;
 +	selmon->pertag->prevclient[selmon->pertag->curtag] = nexttiled(selmon->clients);
- 
+
  	if (!selmon->lt[selmon->sellt]->arrange
  	|| (selmon->sel && selmon->sel->isfloating))
  		return;

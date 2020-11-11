@@ -15,29 +15,29 @@ default master-area
 stack-areas dynamically.
 ---
  config.def.h |  2 ++
- dwm.c        | 23 ++++++++++++++++++++---
+ dwm.c		| 23 ++++++++++++++++++++---
  2 files changed, 22 insertions(+), 3 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
 index 7054c06..5a69035 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -13,6 +13,7 @@ static const char selbgcolor[]      = "#005577";
- static const char selfgcolor[]      = "#eeeeee";
- static const unsigned int borderpx  = 1;        /* border pixel of windows */
- static const unsigned int snap      = 32;       /* snap pixel */
-+static const int rmaster            = 1;        /* 1 means master-area is initially on the right */
- static const int showbar            = 1;        /* 0 means no bar */
- static const int topbar             = 1;        /* 0 means bottom bar */
- 
+@@ -13,6 +13,7 @@ static const char selbgcolor[]	  = "#005577";
+ static const char selfgcolor[]	  = "#eeeeee";
+ static const unsigned int borderpx  = 1;		/* border pixel of windows */
+ static const unsigned int snap	  = 32;	   /* snap pixel */
++static const int rmaster			= 1;		/* 1 means master-area is initially on the right */
+ static const int showbar			= 1;		/* 0 means no bar */
+ static const int topbar			 = 1;		/* 0 means bottom bar */
+
 @@ -76,6 +77,7 @@ static Key keys[] = {
- 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
- 	{ MODKEY,                       XK_space,  setlayout,      {0} },
- 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-+	{ MODKEY,                       XK_r,      togglermaster,  {0} },
- 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
- 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
- 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+ 	{ MODKEY,					   XK_m,	  setlayout,	  {.v = &layouts[2]} },
+ 	{ MODKEY,					   XK_space,  setlayout,	  {0} },
+ 	{ MODKEY|ShiftMask,			 XK_space,  togglefloating, {0} },
++	{ MODKEY,					   XK_r,	  togglermaster,  {0} },
+ 	{ MODKEY,					   XK_0,	  view,		   {.ui = ~0 } },
+ 	{ MODKEY|ShiftMask,			 XK_0,	  tag,			{.ui = ~0 } },
+ 	{ MODKEY,					   XK_comma,  focusmon,	   {.i = -1 } },
 diff --git a/dwm.c b/dwm.c
 index 0362114..e11bd8b 100644
 --- a/dwm.c
@@ -68,7 +68,7 @@ index 0362114..e11bd8b 100644
  	m->lt[0] = &layouts[0];
 @@ -1674,17 +1677,21 @@ tile(Monitor *m)
  		return;
- 
+
  	if (n > m->nmaster)
 -		mw = m->nmaster ? m->ww * m->mfact : 0;
 +		mw = m->nmaster
@@ -81,20 +81,20 @@ index 0362114..e11bd8b 100644
  			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
 -			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
 +			resize(c, m->rmaster ? m->wx + m->ww - mw : m->wx,
-+			       m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
++				   m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
  			my += HEIGHT(c);
  		} else {
  			h = (m->wh - ty) / (n - i);
 -			resize(c, m->wx + mw, m->wy + ty, m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
 +			resize(c, m->rmaster ? m->wx : m->wx + mw, m->wy + ty,
-+			       m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
++				   m->ww - mw - (2*c->bw), h - (2*c->bw), 0);
  			ty += HEIGHT(c);
  		}
  }
 @@ -1712,6 +1719,16 @@ togglefloating(const Arg *arg)
  	arrange(selmon);
  }
- 
+
 +void
 +togglermaster(const Arg *arg)
 +{
@@ -108,6 +108,6 @@ index 0362114..e11bd8b 100644
  void
  toggletag(const Arg *arg)
  {
--- 
+--
 2.21.0
 

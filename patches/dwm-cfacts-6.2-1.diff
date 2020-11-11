@@ -8,7 +8,7 @@ This single line caused that the cfacts patch was only working on master clients
 but not on stack clients.
 ---
  config.def.h |  3 +++
- dwm.c        | 34 +++++++++++++++++++++++++++++++---
+ dwm.c		| 34 +++++++++++++++++++++++++++++++---
  2 files changed, 34 insertions(+), 3 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
@@ -16,15 +16,15 @@ index 1c0b587..83910c1 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -70,6 +70,9 @@ static Key keys[] = {
- 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
- 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
- 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
-+	{ MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
-+	{ MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
-+	{ MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
- 	{ MODKEY,                       XK_Return, zoom,           {0} },
- 	{ MODKEY,                       XK_Tab,    view,           {0} },
- 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+ 	{ MODKEY,					   XK_d,	  incnmaster,	 {.i = -1 } },
+ 	{ MODKEY,					   XK_h,	  setmfact,	   {.f = -0.05} },
+ 	{ MODKEY,					   XK_l,	  setmfact,	   {.f = +0.05} },
++	{ MODKEY|ShiftMask,			 XK_h,	  setcfact,	   {.f = +0.25} },
++	{ MODKEY|ShiftMask,			 XK_l,	  setcfact,	   {.f = -0.25} },
++	{ MODKEY|ShiftMask,			 XK_o,	  setcfact,	   {.f =  0.00} },
+ 	{ MODKEY,					   XK_Return, zoom,		   {0} },
+ 	{ MODKEY,					   XK_Tab,	view,		   {0} },
+ 	{ MODKEY|ShiftMask,			 XK_c,	  killclient,	 {0} },
 diff --git a/dwm.c b/dwm.c
 index 4465af1..c0ad1b3 100644
 --- a/dwm.c
@@ -50,13 +50,13 @@ index 4465af1..c0ad1b3 100644
  	c->h = c->oldh = wa->height;
  	c->oldbw = wa->border_width;
 +	c->cfact = 1.0;
- 
+
  	updatetitle(c);
  	if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
 @@ -1511,6 +1514,23 @@ setlayout(const Arg *arg)
  		drawbar(selmon);
  }
- 
+
 +void setcfact(const Arg *arg) {
 +	float f;
 +	Client *c;
@@ -83,7 +83,7 @@ index 4465af1..c0ad1b3 100644
  	unsigned int i, n, h, mw, my, ty;
 +	float mfacts = 0, sfacts = 0;
  	Client *c;
- 
+
 -	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 +	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
 +		if (n < m->nmaster)
@@ -93,7 +93,7 @@ index 4465af1..c0ad1b3 100644
 +	}
  	if (n == 0)
  		return;
- 
+
 @@ -1686,13 +1712,15 @@ tile(Monitor *m)
  		mw = m->ww;
  	for (i = my = ty = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
@@ -111,7 +111,7 @@ index 4465af1..c0ad1b3 100644
 +			sfacts -= c->cfact;
  		}
  }
- 
--- 
+
+--
 2.27.0
 

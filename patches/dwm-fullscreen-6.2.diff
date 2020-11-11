@@ -5,7 +5,7 @@ Subject: [PATCH] Simulate toggleable fullscreen mode
 
 ---
  config.def.h |  1 +
- dwm.c        | 14 ++++++++++++++
+ dwm.c		| 14 ++++++++++++++
  2 files changed, 15 insertions(+)
 
 diff --git a/config.def.h b/config.def.h
@@ -13,13 +13,13 @@ index 1c0b587..f774cc5 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -76,6 +76,7 @@ static Key keys[] = {
- 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
- 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
- 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-+	{ MODKEY|ShiftMask,             XK_f,      fullscreen,     {0} },
- 	{ MODKEY,                       XK_space,  setlayout,      {0} },
- 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
- 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+ 	{ MODKEY,					   XK_t,	  setlayout,	  {.v = &layouts[0]} },
+ 	{ MODKEY,					   XK_f,	  setlayout,	  {.v = &layouts[1]} },
+ 	{ MODKEY,					   XK_m,	  setlayout,	  {.v = &layouts[2]} },
++	{ MODKEY|ShiftMask,			 XK_f,	  fullscreen,	 {0} },
+ 	{ MODKEY,					   XK_space,  setlayout,	  {0} },
+ 	{ MODKEY|ShiftMask,			 XK_space,  togglefloating, {0} },
+ 	{ MODKEY,					   XK_0,	  view,		   {.ui = ~0 } },
 diff --git a/dwm.c b/dwm.c
 index 4465af1..04b1e06 100644
 --- a/dwm.c
@@ -35,7 +35,7 @@ index 4465af1..04b1e06 100644
 @@ -1497,6 +1498,19 @@ setfullscreen(Client *c, int fullscreen)
  	}
  }
- 
+
 +Layout *last_layout;
 +void
 +fullscreen(const Arg *arg)
@@ -52,5 +52,5 @@ index 4465af1..04b1e06 100644
  void
  setlayout(const Arg *arg)
  {
--- 
+--
 2.22.0

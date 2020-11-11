@@ -18,7 +18,7 @@ the rmaster-patch. To make it work with the rmaster-patch apply the
 dwm-deck-rmaster patch on top of the dwm-deck patch.
 ---
  config.def.h |  2 ++
- dwm.c        | 26 ++++++++++++++++++++++++++
+ dwm.c		| 26 ++++++++++++++++++++++++++
  2 files changed, 28 insertions(+)
 
 diff --git a/config.def.h b/config.def.h
@@ -26,21 +26,21 @@ index 77ff358..55d8a07 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -32,6 +32,7 @@ static const Layout layouts[] = {
- 	{ "[]=",      tile },    /* first entry is default */
- 	{ "><>",      NULL },    /* no layout function means floating behavior */
- 	{ "[M]",      monocle },
-+	{ "[D]",      deck },
+ 	{ "[]=",	  tile },	/* first entry is default */
+ 	{ "><>",	  NULL },	/* no layout function means floating behavior */
+ 	{ "[M]",	  monocle },
++	{ "[D]",	  deck },
  };
- 
+
  /* key definitions */
 @@ -66,6 +67,7 @@ static Key keys[] = {
- 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
- 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
- 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-+	{ MODKEY,                       XK_c,      setlayout,      {.v = &layouts[3]} },
- 	{ MODKEY,                       XK_space,  setlayout,      {0} },
- 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
- 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+ 	{ MODKEY,					   XK_t,	  setlayout,	  {.v = &layouts[0]} },
+ 	{ MODKEY,					   XK_f,	  setlayout,	  {.v = &layouts[1]} },
+ 	{ MODKEY,					   XK_m,	  setlayout,	  {.v = &layouts[2]} },
++	{ MODKEY,					   XK_c,	  setlayout,	  {.v = &layouts[3]} },
+ 	{ MODKEY,					   XK_space,  setlayout,	  {0} },
+ 	{ MODKEY|ShiftMask,			 XK_space,  togglefloating, {0} },
+ 	{ MODKEY,					   XK_0,	  view,		   {.ui = ~0 } },
 diff --git a/dwm.c b/dwm.c
 index 1d78655..356ab44 100644
 --- a/dwm.c
@@ -56,7 +56,7 @@ index 1d78655..356ab44 100644
 @@ -669,6 +670,31 @@ destroynotify(XEvent *e) {
  		unmanage(c, True);
  }
- 
+
 +void
 +deck(Monitor *m) {
 +	unsigned int i, n, h, mw, my;
@@ -85,6 +85,6 @@ index 1d78655..356ab44 100644
  void
  detach(Client *c) {
  	Client **tc;
--- 
+--
 2.21.0
 

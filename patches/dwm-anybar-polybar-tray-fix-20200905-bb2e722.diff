@@ -28,46 +28,46 @@ This verison of the patch fixes handling of polybar's tray.
 The patch is developed at https://github.com/mihirlad55/dwm-anybar
 ---
  config.def.h |   4 ++
- dwm.c        | 193 +++++++++++++++++++++++++++++++++++++++++++++++----
+ dwm.c		| 193 +++++++++++++++++++++++++++++++++++++++++++++++----
  2 files changed, 182 insertions(+), 15 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
 index 1c0b587..f45211b 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -5,6 +5,10 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
- static const unsigned int snap      = 32;       /* snap pixel */
- static const int showbar            = 1;        /* 0 means no bar */
- static const int topbar             = 1;        /* 0 means bottom bar */
-+static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
-+static const char *altbarclass      = "Polybar"; /* Alternate bar class name */
-+static const char *alttrayname      = "tray";    /* Polybar tray instance name */
-+static const char *altbarcmd        = "$HOME/bar.sh"; /* Alternate bar launch command */
- static const char *fonts[]          = { "monospace:size=10" };
- static const char dmenufont[]       = "monospace:size=10";
- static const char col_gray1[]       = "#222222";
+@@ -5,6 +5,10 @@ static const unsigned int borderpx  = 1;		/* border pixel of windows */
+ static const unsigned int snap	  = 32;	   /* snap pixel */
+ static const int showbar			= 1;		/* 0 means no bar */
+ static const int topbar			 = 1;		/* 0 means bottom bar */
++static const int usealtbar		  = 1;		/* 1 means use non-dwm status bar */
++static const char *altbarclass	  = "Polybar"; /* Alternate bar class name */
++static const char *alttrayname	  = "tray";	/* Polybar tray instance name */
++static const char *altbarcmd		= "$HOME/bar.sh"; /* Alternate bar launch command */
+ static const char *fonts[]		  = { "monospace:size=10" };
+ static const char dmenufont[]	   = "monospace:size=10";
+ static const char col_gray1[]	   = "#222222";
 diff --git a/dwm.c b/dwm.c
 index 9fd0286..7bb5307 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -47,8 +47,8 @@
  /* macros */
- #define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
- #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
--#define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->wx+(m)->ww) - MAX((x),(m)->wx)) \
--                               * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
-+#define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->mx+(m)->mw) - MAX((x),(m)->mx)) \
-+                               * MAX(0, MIN((y)+(h),(m)->my+(m)->mh) - MAX((y),(m)->my)))
- #define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
- #define LENGTH(X)               (sizeof X / sizeof X[0])
- #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
+ #define BUTTONMASK			  (ButtonPressMask|ButtonReleaseMask)
+ #define CLEANMASK(mask)		 (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
+-#define INTERSECT(x,y,w,h,m)	(MAX(0, MIN((x)+(w),(m)->wx+(m)->ww) - MAX((x),(m)->wx)) \
+-							   * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
++#define INTERSECT(x,y,w,h,m)	(MAX(0, MIN((x)+(w),(m)->mx+(m)->mw) - MAX((x),(m)->mx)) \
++							   * MAX(0, MIN((y)+(h),(m)->my+(m)->mh) - MAX((y),(m)->my)))
+ #define ISVISIBLE(C)			((C->tags & C->mon->tagset[C->mon->seltags]))
+ #define LENGTH(X)			   (sizeof X / sizeof X[0])
+ #define MOUSEMASK			   (BUTTONMASK|PointerMotionMask)
 @@ -116,7 +116,8 @@ struct Monitor {
  	float mfact;
  	int nmaster;
  	int num;
--	int by;               /* bar geometry */
-+	int by, bh;           /* bar geometry */
-+	int tx, tw;           /* bar tray geometry */
+-	int by;			   /* bar geometry */
++	int by, bh;		   /* bar geometry */
++	int tx, tw;		   /* bar tray geometry */
  	int mx, my, mw, mh;   /* screen size */
  	int wx, wy, ww, wh;   /* window area  */
  	unsigned int seltags;
@@ -78,7 +78,7 @@ index 9fd0286..7bb5307 100644
 +	Window traywin;
  	const Layout *lt[2];
  };
- 
+
 @@ -179,6 +181,8 @@ static void incnmaster(const Arg *arg);
  static void keypress(XEvent *e);
  static void killclient(const Arg *arg);
@@ -133,7 +133,7 @@ index 9fd0286..7bb5307 100644
 +	}
  	free(mon);
  }
- 
+
 @@ -568,7 +579,7 @@ configurenotify(XEvent *e)
  				for (c = m->clients; c; c = c->next)
  					if (c->isfullscreen)
@@ -157,7 +157,7 @@ index 9fd0286..7bb5307 100644
  	Client *c;
 +	Monitor *m;
  	XDestroyWindowEvent *ev = &e->xdestroywindow;
- 
+
  	if ((c = wintoclient(ev->window)))
  		unmanage(c, 1);
 +	else if (usealtbar && (m = wintomon(ev->window)) && m->barwin == ev->window)
@@ -165,7 +165,7 @@ index 9fd0286..7bb5307 100644
 +	else if (usealtbar && m->traywin == ev->window)
 +		unmanagetray(ev->window);
  }
- 
+
  void
 @@ -696,6 +713,9 @@ dirtomon(int dir)
  void
@@ -180,7 +180,7 @@ index 9fd0286..7bb5307 100644
 @@ -1077,6 +1097,45 @@ manage(Window w, XWindowAttributes *wa)
  	focus(NULL);
  }
- 
+
 +void
 +managealtbar(Window win, XWindowAttributes *wa)
 +{
@@ -233,7 +233,7 @@ index 9fd0286..7bb5307 100644
 +	else if (!wintoclient(ev->window))
  		manage(ev->window, &wa);
  }
- 
+
 @@ -1393,7 +1454,9 @@ scan(void)
  			if (!XGetWindowAttributes(dpy, wins[i], &wa)
  			|| wa.override_redirect || XGetTransientForHint(dpy, wins[i], &d1))
@@ -248,7 +248,7 @@ index 9fd0286..7bb5307 100644
 @@ -1408,6 +1471,29 @@ scan(void)
  	}
  }
- 
+
 +void
 +scantray(void)
 +{
@@ -290,12 +290,12 @@ index 9fd0286..7bb5307 100644
  	focus(NULL);
 +	spawnbar();
  }
- 
- 
+
+
 @@ -1653,6 +1740,13 @@ spawn(const Arg *arg)
  	}
  }
- 
+
 +void
 +spawnbar()
 +{
@@ -326,11 +326,11 @@ index 9fd0286..7bb5307 100644
 +		XMoveResizeWindow(dpy, selmon->traywin, selmon->tx, selmon->by, selmon->tw, selmon->bh);
  	arrange(selmon);
  }
- 
+
 @@ -1787,10 +1891,41 @@ unmanage(Client *c, int destroyed)
  	arrange(m);
  }
- 
+
 +void
 +unmanagealtbar(Window w)
 +{
@@ -367,7 +367,7 @@ index 9fd0286..7bb5307 100644
  	Client *c;
 +	Monitor *m;
  	XUnmapEvent *ev = &e->xunmap;
- 
+
  	if ((c = wintoclient(ev->window))) {
 @@ -1798,12 +1933,18 @@ unmapnotify(XEvent *e)
  			setclientstate(c, WithdrawnState);
@@ -379,7 +379,7 @@ index 9fd0286..7bb5307 100644
 +	else if (usealtbar && m->traywin == ev->window)
 +		unmanagetray(ev->window);
  }
- 
+
  void
  updatebars(void)
  {
@@ -402,7 +402,7 @@ index 9fd0286..7bb5307 100644
 -		m->by = -bh;
 +		m->by = -m->bh;
  }
- 
+
  void
 @@ -2070,13 +2211,35 @@ wintomon(Window w)
  	if (w == root && getrootptr(&x, &y))
@@ -415,7 +415,7 @@ index 9fd0286..7bb5307 100644
  		return c->mon;
  	return selmon;
  }
- 
+
 +int
 +wmclasscontains(Window win, const char *class, const char *name)
 +{
@@ -441,6 +441,6 @@ index 9fd0286..7bb5307 100644
  /* There's no way to check accesses to destroyed windows, thus those cases are
   * ignored (especially on UnmapNotify's). Other types of errors call Xlibs
   * default error handler, which may call exit. */
--- 
+--
 2.28.0
 

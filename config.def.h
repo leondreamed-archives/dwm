@@ -22,7 +22,7 @@ static const char col_cyan[]		= "#2aa198";
 static const char col_orange[]		= "#b58900";
 static const char col_urgborder[]	= "#dc322f";
 static const char *colors[][3]		= {
-	/*               fg         bg         border   */
+	/*			   fg		 bg		 border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_orange  },
 	[SchemeUrg]  = { col_gray4, col_cyan,  col_urgborder  },
@@ -36,9 +36,9 @@ const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
 const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
 const char *spcmd3[] = {"keepassxc", NULL };
 static Sp scratchpads[] = {
-	/* name          cmd  */
-	{"spterm",      spcmd1},
-	{"spranger",    spcmd2},
+	/* name		  cmd  */
+	{"spterm",	  spcmd1},
+	{"spranger",	spcmd2},
 	{"keepassxc",   spcmd3},
 };
 
@@ -49,14 +49,14 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/*		class				instance    		title		tags	mask	isfloating	isterminal		noswallow		monitor*/
+	/*		class				instance			title		tags	mask	isfloating	isterminal		noswallow		monitor*/
 	{ "Gimp",				NULL,		NULL,	0,			1,	-1,	0,	0 },
-    { "st-256color",		NULL,   	NULL,	1 << 0,	0,	1,		0,	-1 },
-    { "qutebrowser",		NULL,		NULL,	1 << 1,	0,	-1,	0,	-1 },
-    { "jetbrains-idea",	NULL,		NULL,	1 << 2,	0,	-1,	0,	-1 },
-    { "Todoist",			NULL,		NULL,	1 << 3,	0,	-1,	0,	-1 },
-    { "Element",			NULL,		NULL,	1 << 4,	0,	1,		0,	0 },
-    { "jetbrains-clion",	NULL,		NULL,	1 << 5,	0,	-1,	0,	-1 },
+	{ "st-256color",		NULL,   	NULL,	1 << 0,	0,	1,		0,	-1 },
+	{ "qutebrowser",		NULL,		NULL,	1 << 1,	0,	-1,	0,	-1 },
+	{ "jetbrains-idea",	NULL,		NULL,	1 << 2,	0,	-1,	0,	-1 },
+	{ "Todoist",			NULL,		NULL,	1 << 3,	0,	-1,	0,	-1 },
+	{ "Element",			NULL,		NULL,	1 << 4,	0,	1,		0,	0 },
+	{ "jetbrains-clion",	NULL,		NULL,	1 << 5,	0,	-1,	0,	-1 },
 	{ NULL,				"spterm",	NULL,	SPTAG(0),1,	-1 },
 	{ NULL,				"spfm",		NULL,	SPTAG(1),1,	-1 },
 	{ NULL,				"keepassxc",NULL,	SPTAG(2),0,	-1 },
@@ -69,7 +69,7 @@ static const int resizehints	= 1;	/* 1 means respect size hints in tiled resizal
 static const int attachbelow	= 1;	/* 1 means attach after the currently active window */
 
 static const Layout layouts[] = {
-	/* symbol     arrange function */
+	/* symbol	 arrange function */
 	{	"[]=",	tile },			/* first entry is default */
 	{	"><>",	NULL },	/* no layout function means floating behavior */
 	{	"[M]",	monocle },
@@ -93,49 +93,49 @@ static const char *termcmd[]  = { "st", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
-        /* modifier							key		function		argument */
-        { MODKEY,				47,		swapfocus,		{.i = -1 } },		// s
+		/* modifier							key		function		argument */
+		{ MODKEY,				47,		swapfocus,		{.i = -1 } },		// s
 		{ MODKEY|ShiftMask,	47,		swapmaster,		{.i = -1 } },		// shift+s
 		{ MODKEY,				57,		togglebar,		{0} },			// b
-        { MODKEY,				54,		focusstack,		{.i = +1 } },		// j
-        { MODKEY,				55,		focusstack,		{.i = -1 } },		// k
-        { MODKEY|ShiftMask,	54,		movestack,		{.i = +1 } },		// shift+j
-        { MODKEY|ShiftMask,	55,		movestack,		{.i = -1 } },		// shift+k
-        { MODKEY,				42,		incnmaster,		{.i = +1 } },		// i
-        { MODKEY,				43,		incnmaster,		{.i = -1 } },		// d
-        { MODKEY,				44,		setmfact,		{.f = -0.05} },		// h
-        { MODKEY,				33,		setmfact,		{.f = +0.05} },		// l
-        { MODKEY|ShiftMask,	44,		setcfact,		{.f = -0.25} },		// shift+h
-        { MODKEY|ShiftMask,	33,		setcfact,		{.f = +0.25} },		// shift+l
-        { MODKEY|ShiftMask,	39,		setcfact,		{.f =  0.00} },		// shift+o
-        { MODKEY|ShiftMask,	53,		killclient,		{0} },			// shift+q
-        { MODKEY,				58,		focusmaster,	{0} },			// m
-        { MODKEY|ShiftMask,	58,		zoom,			{0} },			// shift+m
-        { MODKEY|ShiftMask,	65,		togglefloating,	{0} },			// shift+space
-        { MODKEY,				16,		comboview,		{.ui = ~0 } },		// 0
-        { MODKEY|ShiftMask,	16,		combotag,		{.ui = ~0 } },		// shift+0
-        { MODKEY,				25,		focusmon,		{.i = -1 } },		// comma
-        { MODKEY,				26,		focusmon,		{.i = +1 } },		// period
-        { MODKEY|ShiftMask,	25,		tagmon,			{.i = -1 } },		// shift+comma
-        { MODKEY|ShiftMask,	26,		tagmon,			{.i = +1 } },		// shift+period
-        { MODKEY,				29,		fullscreen,		{0} },			// f
-        { MODKEY,				48,		togglescratch,	{0} },			// -
+		{ MODKEY,				54,		focusstack,		{.i = +1 } },		// j
+		{ MODKEY,				55,		focusstack,		{.i = -1 } },		// k
+		{ MODKEY|ShiftMask,	54,		movestack,		{.i = +1 } },		// shift+j
+		{ MODKEY|ShiftMask,	55,		movestack,		{.i = -1 } },		// shift+k
+		{ MODKEY,				42,		incnmaster,		{.i = +1 } },		// i
+		{ MODKEY,				43,		incnmaster,		{.i = -1 } },		// d
+		{ MODKEY,				44,		setmfact,		{.f = -0.05} },		// h
+		{ MODKEY,				33,		setmfact,		{.f = +0.05} },		// l
+		{ MODKEY|ShiftMask,	44,		setcfact,		{.f = -0.25} },		// shift+h
+		{ MODKEY|ShiftMask,	33,		setcfact,		{.f = +0.25} },		// shift+l
+		{ MODKEY|ShiftMask,	39,		setcfact,		{.f =  0.00} },		// shift+o
+		{ MODKEY|ShiftMask,	53,		killclient,		{0} },			// shift+q
+		{ MODKEY,				58,		focusmaster,	{0} },			// m
+		{ MODKEY|ShiftMask,	58,		zoom,			{0} },			// shift+m
+		{ MODKEY|ShiftMask,	65,		togglefloating,	{0} },			// shift+space
+		{ MODKEY,				16,		comboview,		{.ui = ~0 } },		// 0
+		{ MODKEY|ShiftMask,	16,		combotag,		{.ui = ~0 } },		// shift+0
+		{ MODKEY,				25,		focusmon,		{.i = -1 } },		// comma
+		{ MODKEY,				26,		focusmon,		{.i = +1 } },		// period
+		{ MODKEY|ShiftMask,	25,		tagmon,			{.i = -1 } },		// shift+comma
+		{ MODKEY|ShiftMask,	26,		tagmon,			{.i = +1 } },		// shift+period
+		{ MODKEY,				29,		fullscreen,		{0} },			// f
+		{ MODKEY,				48,		togglescratch,	{0} },			// -
 		{ MODKEY|ShiftMask,	40,		quit,			{0} },			// e
-		TAGKEYS(                14,                    0)                 // 1
-        TAGKEYS(                17,                    1)                 // 2
-        TAGKEYS(                13,                    2)                 // 3
-        TAGKEYS(                18,                    3)                 // 4
-        TAGKEYS(                12,                    4)                 // 5
-        TAGKEYS(                19,                    5)                 // 6
-        TAGKEYS(                11,                    6)                 // 7
-        TAGKEYS(                20,                    7)                 // 8
-        TAGKEYS(                15,                    8)                 // 9
+		TAGKEYS(				14,					0)				 // 1
+		TAGKEYS(				17,					1)				 // 2
+		TAGKEYS(				13,					2)				 // 3
+		TAGKEYS(				18,					3)				 // 4
+		TAGKEYS(				12,					4)				 // 5
+		TAGKEYS(				19,					5)				 // 6
+		TAGKEYS(				11,					6)				 // 7
+		TAGKEYS(				20,					7)				 // 8
+		TAGKEYS(				15,					8)				 // 9
 };
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
-	/*	click                	event mask      button		function		argument */
+	/*	click					event mask	  button		function		argument */
 	{	ClkLtSymbol,		0,		Button1,	setlayout,		{0} },
 	{	ClkLtSymbol,		0,		Button3,	setlayout,		{.v = &layouts[2]} },
 	{	ClkWinTitle,		0,		Button2,	zoom,			{0} },

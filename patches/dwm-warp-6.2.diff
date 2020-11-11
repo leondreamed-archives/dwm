@@ -16,7 +16,7 @@ index 4465af1..bf74f60 100644
  	focus(NULL);
 +	warp(selmon->sel);
  }
- 
+
  void
 @@ -1367,6 +1369,8 @@ restack(Monitor *m)
  	}
@@ -25,12 +25,12 @@ index 4465af1..bf74f60 100644
 +	if (m == selmon && (m->tagset[m->seltags] & m->sel->tags) && selmon->lt[selmon->sellt] != &layouts[2])
 +		warp(m->sel);
  }
- 
+
  void
 @@ -2044,6 +2048,28 @@ view(const Arg *arg)
  	arrange(selmon);
  }
- 
+
 +void
 +warp(const Client *c)
 +{
@@ -42,12 +42,12 @@ index 4465af1..bf74f60 100644
 +	}
 +
 +	if (!getrootptr(&x, &y) ||
-+	    (x > c->x - c->bw &&
-+	     y > c->y - c->bw &&
-+	     x < c->x + c->w + c->bw*2 &&
-+	     y < c->y + c->h + c->bw*2) ||
-+	    (y > c->mon->by && y < c->mon->by + bh) ||
-+	    (c->mon->topbar && !y))
++		(x > c->x - c->bw &&
++		 y > c->y - c->bw &&
++		 x < c->x + c->w + c->bw*2 &&
++		 y < c->y + c->h + c->bw*2) ||
++		(y > c->mon->by && y < c->mon->by + bh) ||
++		(c->mon->topbar && !y))
 +		return;
 +
 +	XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w / 2, c->h / 2);

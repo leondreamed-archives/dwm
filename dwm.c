@@ -51,30 +51,30 @@
 #include "util.h"
 
 /* macros */
-#define BUTTONMASK              (ButtonPressMask|ButtonReleaseMask)
-#define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
-#define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->mx+(m)->mw) - MAX((x),(m)->mx)) \
-                               * MAX(0, MIN((y)+(h),(m)->my+(m)->mh) - MAX((y),(m)->my)))
-#define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
-#define LENGTH(X)               (sizeof X / sizeof X[0])
-#define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
-#define WIDTH(X)                ((X)->w + 2 * (X)->bw)
-#define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
+#define BUTTONMASK			  (ButtonPressMask|ButtonReleaseMask)
+#define CLEANMASK(mask)		 (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
+#define INTERSECT(x,y,w,h,m)	(MAX(0, MIN((x)+(w),(m)->mx+(m)->mw) - MAX((x),(m)->mx)) \
+							   * MAX(0, MIN((y)+(h),(m)->my+(m)->mh) - MAX((y),(m)->my)))
+#define ISVISIBLE(C)			((C->tags & C->mon->tagset[C->mon->seltags]))
+#define LENGTH(X)			   (sizeof X / sizeof X[0])
+#define MOUSEMASK			   (BUTTONMASK|PointerMotionMask)
+#define WIDTH(X)				((X)->w + 2 * (X)->bw)
+#define HEIGHT(X)			   ((X)->h + 2 * (X)->bw)
 #define NUMTAGS					(LENGTH(tags) + LENGTH(scratchpads))
-#define TAGMASK     			((1 << NUMTAGS) - 1)
+#define TAGMASK	 			((1 << NUMTAGS) - 1)
 #define SPTAG(i) 				((1 << LENGTH(tags)) << (i))
 #define SPTAGMASK   			(((1 << LENGTH(scratchpads))-1) << LENGTH(tags))
-#define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
+#define TEXTW(X)				(drw_fontset_getwidth(drw, (X)) + lrpad)
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
 enum { SchemeNorm, SchemeSel, SchemeUrg }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
-       NetWMFullscreen, NetActiveWindow, NetWMWindowType,
-       NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
+	   NetWMFullscreen, NetActiveWindow, NetWMWindowType,
+	   NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
 enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
-       ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
+	   ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
 
 typedef struct TagState TagState;
 struct TagState {
@@ -144,8 +144,8 @@ struct Monitor {
 	float mfact;
 	int nmaster;
 	int num;
-	int by, bh;           /* bar geometry */
-	int tx, tw;           /* bar tray geometry */
+	int by, bh;		   /* bar geometry */
+	int tx, tw;		   /* bar tray geometry */
 	int mx, my, mw, mh;   /* screen size */
 	int wx, wy, ww, wh;   /* window area  */
 	unsigned int seltags;
@@ -309,9 +309,9 @@ static void focusmaster(const Arg *arg);
 static const char broken[] = "broken";
 static char stext[256];
 static int screen;
-static int sw, sh;           /* X display screen geometry width, height */
-static int bh, blw = 0;      /* bar geometry */
-static int lrpad;            /* sum of left and right padding for text */
+static int sw, sh;		   /* X display screen geometry width, height */
+static int bh, blw = 0;	  /* bar geometry */
+static int lrpad;			/* sum of left and right padding for text */
 static int (*xerrorxlib)(Display *, XErrorEvent *);
 static unsigned int numlockmask = 0;
 static void (*handler[LASTEvent]) (XEvent *) = {
@@ -414,7 +414,7 @@ applyrules(Client *c)
 	c->isfloating = 0;
 	c->tags = 0;
 	XGetClassHint(dpy, c->win, &ch);
-	class    = ch.res_class ? ch.res_class : broken;
+	class	= ch.res_class ? ch.res_class : broken;
 	instance = ch.res_name  ? ch.res_name  : broken;
 
 	for (i = 0; i < LENGTH(rules); i++) {
@@ -737,7 +737,7 @@ clientmessage(XEvent *e)
 	if (cme->message_type == netatom[NetWMState]) {
 		if (cme->data.l[1] == netatom[NetWMFullscreen]
 		|| cme->data.l[2] == netatom[NetWMFullscreen])
-			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
+			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD	*/
 				|| cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */));
 	} else if (cme->message_type == netatom[NetActiveWindow]) {
 		if (c != selmon->sel && !c->isurgent)
@@ -2007,7 +2007,7 @@ setup(void)
 	grabkeys();
 	focus(NULL);
 	setupepoll();
-    spawnbar();
+	spawnbar();
 }
 
 void
@@ -2185,20 +2185,20 @@ tile(Monitor *m) {
 			r = c->cfact / mfacts;
 			h = (m->wh - my) * r;
 			resize(c, m->rmaster ? m->wx + m->ww - mw : m->wx,
-			       m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
+				   m->wy + my, mw - (2*c->bw), h - (2*c->bw), 0);
 			if (my + HEIGHT(c) < m->wh)
 				my += HEIGHT(c);
-            mfacts -= c->cfact;
+			mfacts -= c->cfact;
 		}
 		else {
-            r = c->cfact / sfacts;
-            h = (m->wh - ty) * r;
-            resize(c, m->rmaster ? m->wx : m->wx + mw, m->wy + ty,
-                   m->ww - mw - (2 * c->bw), h - (2 * c->bw), 0);
-            if (ty + HEIGHT(c) < m->wh)
+			r = c->cfact / sfacts;
+			h = (m->wh - ty) * r;
+			resize(c, m->rmaster ? m->wx : m->wx + mw, m->wy + ty,
+				   m->ww - mw - (2 * c->bw), h - (2 * c->bw), 0);
+			if (ty + HEIGHT(c) < m->wh)
 				ty += HEIGHT(c);
-            sfacts -= c->cfact;
-        }
+			sfacts -= c->cfact;
+		}
 }
 
 void
@@ -2255,7 +2255,7 @@ togglefloating(const Arg *arg)
 	if (selmon->sel->isfloating)
 		/* restore last known float dimensions */
 		resize(selmon->sel, selmon->sel->sfx, selmon->sel->sfy,
-		       selmon->sel->sfw, selmon->sel->sfh, False);
+			   selmon->sel->sfw, selmon->sel->sfh, False);
 	else {
 		/* save last known float dimensions */
 		selmon->sel->sfx = selmon->sel->x;
@@ -2280,7 +2280,7 @@ void
 togglefullscr(const Arg *arg)
 {
   if(selmon->sel)
-    setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
+	setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
 }
 
 void
@@ -2724,12 +2724,12 @@ warp(const Client *c)
 	}
 
 	if (!getrootptr(&x, &y) ||
-	    (x > c->x - c->bw &&
-	     y > c->y - c->bw &&
-	     x < c->x + c->w + c->bw*2 &&
-	     y < c->y + c->h + c->bw*2) ||
-	    (y > c->mon->by && y < c->mon->by + bh) ||
-	    (c->mon->topbar && !y))
+		(x > c->x - c->bw &&
+		 y > c->y - c->bw &&
+		 x < c->x + c->w + c->bw*2 &&
+		 y < c->y + c->h + c->bw*2) ||
+		(y > c->mon->by && y < c->mon->by + bh) ||
+		(c->mon->topbar && !y))
 		return;
 
 	XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w / 2, c->h / 2);
@@ -2771,18 +2771,18 @@ winpid(Window w)
 	#endif /* __linux__ */
 
 	#ifdef __OpenBSD__
-        Atom type;
-        int format;
-        unsigned long len, bytes;
-        unsigned char *prop;
-        pid_t ret;
+		Atom type;
+		int format;
+		unsigned long len, bytes;
+		unsigned char *prop;
+		pid_t ret;
 
-        if (XGetWindowProperty(dpy, w, XInternAtom(dpy, "_NET_WM_PID", 1), 0, 1, False, AnyPropertyType, &type, &format, &len, &bytes, &prop) != Success || !prop)
-               return 0;
+		if (XGetWindowProperty(dpy, w, XInternAtom(dpy, "_NET_WM_PID", 1), 0, 1, False, AnyPropertyType, &type, &format, &len, &bytes, &prop) != Success || !prop)
+			   return 0;
 
-        ret = *(pid_t*)prop;
-        XFree(prop);
-        result = ret;
+		ret = *(pid_t*)prop;
+		XFree(prop);
+		result = ret;
 
 	#endif /* __OpenBSD__ */
 	return result;

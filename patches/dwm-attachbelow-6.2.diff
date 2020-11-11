@@ -3,13 +3,13 @@ index 1c0b587..cb8053a 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -35,6 +35,7 @@ static const Rule rules[] = {
- static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
- static const int nmaster     = 1;    /* number of clients in master area */
- static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-+static const int attachbelow = 1;    /* 1 means attach after the currently active window */
- 
+ static const float mfact	 = 0.55; /* factor of master area size [0.05..0.95] */
+ static const int nmaster	 = 1;	/* number of clients in master area */
+ static const int resizehints = 1;	/* 1 means respect size hints in tiled resizals */
++static const int attachbelow = 1;	/* 1 means attach after the currently active window */
+
  static const Layout layouts[] = {
- 	/* symbol     arrange function */
+ 	/* symbol	 arrange function */
 diff --git a/dwm.1 b/dwm.1
 index 13b3729..fb6e76c 100644
 --- a/dwm.1
@@ -55,7 +55,7 @@ index 4465af1..bd715a2 100644
 +	c->mon->sel->next = c;
 +
 +}
- 
+
  void
  attachstack(Client *c)
 @@ -1062,7 +1078,10 @@ manage(Window w, XWindowAttributes *wa)

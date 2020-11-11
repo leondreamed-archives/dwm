@@ -34,17 +34,17 @@ scratchpads are just special tags (you may even extend the TAGKEYS macro
 to generalize the key bindings).
 ---
  config.def.h | 28 ++++++++++++++++++++++++----
- dwm.c        | 43 +++++++++++++++++++++++++++++++++++++++++--
+ dwm.c		| 43 +++++++++++++++++++++++++++++++++++++++++--
  2 files changed, 65 insertions(+), 6 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
 index 1c0b587..06265e1 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -18,17 +18,33 @@ static const char *colors[][3]      = {
+@@ -18,17 +18,33 @@ static const char *colors[][3]	  = {
  	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
  };
- 
+
 +typedef struct {
 +	const char *name;
 +	const void *cmd;
@@ -53,9 +53,9 @@ index 1c0b587..06265e1 100644
 +const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "ranger", NULL };
 +const char *spcmd3[] = {"keepassxc", NULL };
 +static Sp scratchpads[] = {
-+	/* name          cmd  */
-+	{"spterm",      spcmd1},
-+	{"spranger",    spcmd2},
++	/* name		  cmd  */
++	{"spterm",	  spcmd1},
++	{"spranger",	spcmd2},
 +	{"keepassxc",   spcmd3},
 +};
 +
@@ -67,59 +67,59 @@ index 1c0b587..06265e1 100644
  	 *	WM_CLASS(STRING) = instance, class
  	 *	WM_NAME(STRING) = title
  	 */
- 	/* class      instance    title       tags mask     isfloating   monitor */
--	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
--	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+ 	/* class	  instance	title	   tags mask	 isfloating   monitor */
+-	{ "Gimp",	 NULL,	   NULL,	   0,			1,		   -1 },
+-	{ "Firefox",  NULL,	   NULL,	   1 << 8,	   0,		   -1 },
 +	{ "Gimp",	  NULL,			NULL,		0,				1,			 -1 },
 +	{ "Firefox",  NULL,			NULL,		1 << 8,			0,			 -1 },
 +	{ NULL,		  "spterm",		NULL,		SPTAG(0),		1,			 -1 },
 +	{ NULL,		  "spfm",		NULL,		SPTAG(1),		1,			 -1 },
 +	{ NULL,		  "keepassxc",	NULL,		SPTAG(2),		0,			 -1 },
  };
- 
+
  /* layout(s) */
 @@ -59,6 +75,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn()
  static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
  static const char *termcmd[]  = { "st", NULL };
- 
+
 +
  static Key keys[] = {
- 	/* modifier                     key        function        argument */
- 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+ 	/* modifier					 key		function		argument */
+ 	{ MODKEY,					   XK_p,	  spawn,		  {.v = dmenucmd } },
 @@ -84,6 +101,9 @@ static Key keys[] = {
- 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
- 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
- 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-+	{ MODKEY,            			XK_y,  	   togglescratch,  {.ui = 0 } },
-+	{ MODKEY,            			XK_u,	   togglescratch,  {.ui = 1 } },
-+	{ MODKEY,            			XK_x,	   togglescratch,  {.ui = 2 } },
- 	TAGKEYS(                        XK_1,                      0)
- 	TAGKEYS(                        XK_2,                      1)
- 	TAGKEYS(                        XK_3,                      2)
+ 	{ MODKEY,					   XK_period, focusmon,	   {.i = +1 } },
+ 	{ MODKEY|ShiftMask,			 XK_comma,  tagmon,		 {.i = -1 } },
+ 	{ MODKEY|ShiftMask,			 XK_period, tagmon,		 {.i = +1 } },
++	{ MODKEY,						XK_y,  	   togglescratch,  {.ui = 0 } },
++	{ MODKEY,						XK_u,	   togglescratch,  {.ui = 1 } },
++	{ MODKEY,						XK_x,	   togglescratch,  {.ui = 2 } },
+ 	TAGKEYS(						XK_1,					  0)
+ 	TAGKEYS(						XK_2,					  1)
+ 	TAGKEYS(						XK_3,					  2)
 @@ -106,7 +126,7 @@ static Button buttons[] = {
- 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
- 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
- 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
--	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
-+	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
- 	{ ClkTagBar,            0,              Button1,        view,           {0} },
- 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
- 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
+ 	{ ClkStatusText,		0,			  Button2,		spawn,		  {.v = termcmd } },
+ 	{ ClkClientWin,		 MODKEY,		 Button1,		movemouse,	  {0} },
+ 	{ ClkClientWin,		 MODKEY,		 Button2,		togglefloating, {0} },
+-	{ ClkClientWin,		 MODKEY,		 Button3,		resizemouse,	{0} },
++	{ ClkClientWin,		 MODKEY,		 Button1,		resizemouse,	{0} },
+ 	{ ClkTagBar,			0,			  Button1,		view,		   {0} },
+ 	{ ClkTagBar,			0,			  Button3,		toggleview,	 {0} },
+ 	{ ClkTagBar,			MODKEY,		 Button1,		tag,			{0} },
 diff --git a/dwm.c b/dwm.c
 index 4465af1..646aa1a 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -54,7 +54,10 @@
- #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
- #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
- #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
--#define TAGMASK                 ((1 << LENGTH(tags)) - 1)
+ #define MOUSEMASK			   (BUTTONMASK|PointerMotionMask)
+ #define WIDTH(X)				((X)->w + 2 * (X)->bw)
+ #define HEIGHT(X)			   ((X)->h + 2 * (X)->bw)
+-#define TAGMASK				 ((1 << LENGTH(tags)) - 1)
 +#define NUMTAGS					(LENGTH(tags) + LENGTH(scratchpads))
-+#define TAGMASK     			((1 << NUMTAGS) - 1)
++#define TAGMASK	 			((1 << NUMTAGS) - 1)
 +#define SPTAG(i) 				((1 << LENGTH(tags)) << (i))
 +#define SPTAGMASK   			(((1 << LENGTH(scratchpads))-1) << LENGTH(tags))
- #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
- 
+ #define TEXTW(X)				(drw_fontset_getwidth(drw, (X)) + lrpad)
+
  /* enums */
 @@ -211,6 +214,7 @@ static void tagmon(const Arg *arg);
  static void tile(Monitor *);
@@ -148,7 +148,7 @@ index 4465af1..646aa1a 100644
 -	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
 +	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : (c->mon->tagset[c->mon->seltags] & ~SPTAGMASK);
  }
- 
+
  int
 @@ -1616,6 +1625,10 @@ showhide(Client *c)
  	if (!c)
@@ -164,7 +164,7 @@ index 4465af1..646aa1a 100644
 @@ -1719,6 +1732,32 @@ togglefloating(const Arg *arg)
  	arrange(selmon);
  }
- 
+
 +void
 +togglescratch(const Arg *arg)
 +{
@@ -194,6 +194,6 @@ index 4465af1..646aa1a 100644
  void
  toggletag(const Arg *arg)
  {
--- 
+--
 2.20.1
 

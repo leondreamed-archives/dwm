@@ -12,7 +12,7 @@
 #define IPC_MAGIC_ARR { 'D', 'W', 'M', '-', 'I', 'P', 'C'}
 #define IPC_MAGIC_LEN 7 // Not including null char
 
-#define IPCCOMMAND(FUNC, ARGC, TYPES)                                          \
+#define IPCCOMMAND(FUNC, ARGC, TYPES)										  \
   { #FUNC, {FUNC }, ARGC, (ArgType[ARGC])TYPES }
 // clang-format on
 
@@ -92,7 +92,7 @@ typedef struct IPCParsedCommand {
  *   -1 otherwise
  */
 int ipc_init(const char *socket_path, const int p_epoll_fd,
-             IPCCommand commands[], const int commands_len);
+			 IPCCommand commands[], const int commands_len);
 
 /**
  * Uninitialize the socket and module. Free allocated memory and restore static
@@ -159,7 +159,7 @@ int ipc_accept_client();
  * resulted in EAGAIN, EINTR, or EWOULDBLOCK.
  */
 int ipc_read_client(IPCClient *c, IPCMessageType *msg_type, uint32_t *msg_size,
-                    char **msg);
+					char **msg);
 
 /**
  * Write any pending buffer of the client to the client's socket
@@ -182,7 +182,7 @@ ssize_t ipc_write_client(IPCClient *c);
  *   freed after the function invocation.
  */
 void ipc_prepare_send_message(IPCClient *c, const IPCMessageType msg_type,
-                              const uint32_t msg_size, const char *msg);
+							  const uint32_t msg_size, const char *msg);
 
 /**
  * Prepare an error message in the specified client's buffer
@@ -193,7 +193,7 @@ void ipc_prepare_send_message(IPCClient *c, const IPCMessageType msg_type,
  * @param ... Arguments for format string
  */
 void ipc_prepare_reply_failure(IPCClient *c, IPCMessageType msg_type,
-                               const char *format, ...);
+							   const char *format, ...);
 
 /**
  * Prepare a success message in the specified client's buffer
@@ -212,7 +212,7 @@ void ipc_prepare_reply_success(IPCClient *c, IPCMessageType msg_type);
  * @param new_state The new (now current) tag state
  */
 void ipc_tag_change_event(const int mon_num, TagState old_state,
-                          TagState new_state);
+						  TagState new_state);
 
 /**
  * Send a client_focus_change_event to all subscribers. Should be called only
@@ -223,7 +223,7 @@ void ipc_tag_change_event(const int mon_num, TagState old_state,
  * @param new_client The new (now current) DWM client selection
  */
 void ipc_client_focus_change_event(const int mon_num, Client *old_client,
-                                   Client *new_client);
+								   Client *new_client);
 
 /**
  * Send a layout_change_event to all subscribers. Should be called only
@@ -236,8 +236,8 @@ void ipc_client_focus_change_event(const int mon_num, Client *old_client,
  * @param new_layout Address to the new Layout
  */
 void ipc_layout_change_event(const int mon_num, const char *old_symbol,
-                             const Layout *old_layout, const char *new_symbol,
-                             const Layout *new_layout);
+							 const Layout *old_layout, const char *new_symbol,
+							 const Layout *new_layout);
 
 /**
  * Send a monitor_focus_change_event to all subscribers. Should be called only
@@ -247,7 +247,7 @@ void ipc_layout_change_event(const int mon_num, const char *old_symbol,
  * @param new_mon_num The index of the newly selected monitor
  */
 void ipc_monitor_focus_change_event(const int last_mon_num,
-                                    const int new_mon_num);
+									const int new_mon_num);
 
 /**
  * Send a focused_title_change_event to all subscribers. Should only be called
@@ -259,7 +259,7 @@ void ipc_monitor_focus_change_event(const int last_mon_num,
  * @param new_name New name of the client window
  */
 void ipc_focused_title_change_event(const int mon_num, const Window client_id,
-                                    const char *old_name, const char *new_name);
+									const char *old_name, const char *new_name);
 
 /**
  * Send a focused_state_change_event to all subscribers. Should only be called
@@ -271,8 +271,8 @@ void ipc_focused_title_change_event(const int mon_num, const Window client_id,
  * @param new_state New state of the client
  */
 void ipc_focused_state_change_event(const int mon_num, const Window client_id,
-                                    const ClientState *old_state,
-                                    const ClientState *new_state);
+									const ClientState *old_state,
+									const ClientState *new_state);
 /**
  * Check to see if an event has occured and call the *_change_event functions
  * accordingly
@@ -302,9 +302,9 @@ void ipc_send_events(Monitor *mons, Monitor **lastselmon, Monitor *selmon);
  * or handling incoming messages or unhandled epoll event.
  */
 int ipc_handle_client_epoll_event(struct epoll_event *ev, Monitor *mons,
-                                  Monitor **lastselmon, Monitor *selmon,
-                                  const char *tags[], const int tags_len,
-                                  const Layout *layouts, const int layouts_len);
+								  Monitor **lastselmon, Monitor *selmon,
+								  const char *tags[], const int tags_len,
+								  const Layout *layouts, const int layouts_len);
 
 /**
  * Handle an epoll event caused by the IPC socket. This function only handles an

@@ -29,7 +29,7 @@ index 4465af1..96b0b26 100644
 -			selmon->sel->w, selmon->sel->h, 0);
 +		/* restore last known float dimensions */
 +		resize(selmon->sel, selmon->sel->sfx, selmon->sel->sfy,
-+		       selmon->sel->sfw, selmon->sel->sfh, False);
++			   selmon->sel->sfw, selmon->sel->sfh, False);
 +	else {
 +		/* save last known float dimensions */
 +		selmon->sel->sfx = selmon->sel->x;
@@ -39,4 +39,4 @@ index 4465af1..96b0b26 100644
 +	}
  	arrange(selmon);
  }
- 
+

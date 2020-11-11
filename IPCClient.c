@@ -32,15 +32,15 @@ ipc_list_add_client(IPCClientList *list, IPCClient *nc)
   DEBUG("Adding client with fd %d to list\n", nc->fd);
 
   if (*list == NULL) {
-    // List is empty, point list at first client
-    *list = nc;
+	// List is empty, point list at first client
+	*list = nc;
   } else {
-    IPCClient *c;
-    // Go to last client in list
-    for (c = *list; c && c->next; c = c->next)
-      ;
-    c->next = nc;
-    nc->prev = c;
+	IPCClient *c;
+	// Go to last client in list
+	for (c = *list; c && c->next; c = c->next)
+	  ;
+	c->next = nc;
+	nc->prev = c;
   }
 }
 
@@ -59,7 +59,7 @@ IPCClient *
 ipc_list_get_client(IPCClientList list, int fd)
 {
   for (IPCClient *c = list; c; c = c->next) {
-    if (c->fd == fd) return c;
+	if (c->fd == fd) return c;
   }
 
   return NULL;
