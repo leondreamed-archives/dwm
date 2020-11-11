@@ -14,16 +14,16 @@ static const char *alttrayname		= "tray";		/* Polybar tray instance name */
 static const char *altbarcmd		= "$HOME/scripts/bar.sh";	/* Alternate bar launch command */
 static const char *fonts[]			= { "monospace:size=10" };
 static const char dmenufont[]		= "monospace:size=10";
-static const char col_gray1[]		= "#002b36";
-static const char col_gray2[]		= "#073642";
-static const char col_gray3[]		= "#93a1a1";
-static const char col_gray4[]		= "#eee8d5";
-static const char col_cyan[]		= "#2aa198";
-static const char col_orange[]		= "#b58900";
-static const char col_urgborder[]	= "#dc322f";
+static const char col_gray1[]		= "#ebdbb2"; // fg1
+static const char col_gray2[]		= "#d5c4a1"; // fg2
+static const char col_gray3[]		= "#bdae93"; // fg3
+static const char col_gray4[]		= "#a89984"; // fg4
+static const char col_cyan[]		= "#458588";
+static const char col_orange[]		= "#d65d0e";
+static const char col_urgborder[]	= "#fb4934";
 static const char *colors[][3]		= {
 	/*               fg         bg         border   */
-	[SchemeNorm] = {col_gray3,	col_gray1,	col_gray2},
+	[SchemeNorm] = {col_gray3,	col_gray1,	col_cyan},
 	[SchemeSel]  = {col_gray4,	col_cyan,	col_orange},
 	[SchemeUrg]  = {col_gray4,	col_cyan,	col_urgborder},
 };
