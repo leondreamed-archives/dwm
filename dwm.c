@@ -209,6 +209,7 @@ static void focus(Client *c);
 static void focusin(XEvent *e);
 static void focusmon(const Arg *arg);
 static void focusstack(const Arg *arg);
+static void focussecond(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
@@ -258,6 +259,7 @@ static void spawn(const Arg *arg);
 static void spawnbar();
 static void swapfocus(const Arg *arg);
 static void swapmaster(const Arg *arg);
+static void swapsecond(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
@@ -291,18 +293,14 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
-
 static pid_t getparentprocess(pid_t p);
 static int isdescprocess(pid_t p, pid_t c);
 static Client *swallowingclient(Window w);
 static Client *termforwin(const Client *c);
 static pid_t winpid(Window w);
-
 static void keyrelease(XEvent *e);
 static void combotag(const Arg *arg);
 static void comboview(const Arg *arg);
-
-
 static void focusmaster(const Arg *arg);
 
 /* variables */
@@ -1090,9 +1088,57 @@ focusmon(const Arg *arg)
 	warp(selmon->sel);
 }
 
-void
-focusstack(const Arg *arg)
-{
+void focussecond(const Arg *arg) {
+	Client *c;
+
+	if (selmon->nmaster < 1)
+		return;
+
+	c = nexttiled(selmon->clients);
+	if (c) {
+		c = nexttiled(c->next);
+		if (c) {
+			focus(c);
+		}
+	}
+}
+
+void swapsecond(const Arg *arg) {
+	// s is the second window, ps is the window before s (i.e. the first)
+	Client *s = NULL, *ps = NULL, *psel = NULL;
+
+	ps = nexttiled(selmon->clients);
+	if (!ps)
+		return;
+	s = nexttiled(ps->next);
+	if (!s)
+		return;
+
+	// find the client before selmon->sel
+	for(Client *i = selmon->clients; i && !psel; i = i->next) {
+		if(i->next == selmon->sel)
+			psel = i;
+	}
+
+	// if the second window isn't focused
+	if (s != selmon->sel) {
+		Client *temp = selmon->sel->next == s ? selmon->sel : selmon->sel->next;
+		selmon->sel->next = s->next == selmon->sel ? s : s->next;
+		s->next = temp;
+		if (ps != selmon->sel)
+			ps->next = selmon->sel;
+		if (psel && psel != s)
+			psel->next = s;
+
+		// if selected window is the master
+		if (selmon->sel == selmon->clients)
+			selmon->clients = s;
+
+		arrange(selmon);
+	}
+}
+
+void focusstack(const Arg *arg) {
 	Client *c = NULL, *i;
 
 	if (!selmon->sel)
@@ -1244,7 +1290,10 @@ handlexevent(struct epoll_event *ev)
 void
 incnmaster(const Arg *arg)
 {
-	selmon->nmaster = MAX(selmon->nmaster + arg->i, 0);
+	if (arg->i == 0)
+		selmon->nmaster = 1;
+	else
+		selmon->nmaster = MAX(selmon->nmaster + arg->i, 0);
 	arrange(selmon);
 }
 
@@ -2959,8 +3008,7 @@ zoom(const Arg *arg)
 	Client *c = selmon->sel;
 	selmon->pertag->prevclient[selmon->pertag->curtag] = nexttiled(selmon->clients);
 
-	if (!selmon->lt[selmon->sellt]->arrange
-	|| (selmon->sel && selmon->sel->isfloating))
+	if (!selmon->lt[selmon->sellt]->arrange || (selmon->sel && selmon->sel->isfloating))
 		return;
 	if (c == nexttiled(selmon->clients))
 		if (!c || !(c = selmon->pertag->prevclient[selmon->pertag->curtag] = nexttiled(c->next)))

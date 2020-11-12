@@ -94,8 +94,10 @@ static const char *termcmd[]  = { "st", NULL };
 #include "movestack.c"
 static Key keys[] = {
 		/* modifier							key		function		argument */
-	{MODKEY,				47,		swapfocus,		{.i = -1}},		// s
-	{MODKEY|ShiftMask,		47,		swapmaster,		{.i = -1}},		// shift+s
+	{MODKEY,				59,		swapfocus,		{.i = -1}},		// w
+	{MODKEY|ShiftMask,		59,		swapmaster,		{.i = -1}},		// shift+w
+	{MODKEY,				47,		focussecond,	{0}},		// s
+	{MODKEY|ShiftMask,		47,		swapsecond,		{0}},		// shift+s
 	{MODKEY,				57,		togglebar,		{0}},		// b
 	{MODKEY,				54,		focusstack,		{.i = +1}},		// j
 	{MODKEY,				55,		focusstack,		{.i = -1}},		// k
@@ -103,6 +105,7 @@ static Key keys[] = {
 	{MODKEY|ShiftMask,		55,		movestack,		{.i = -1}},		// shift+k
 	{MODKEY|ShiftMask,		42,		incnmaster,		{.i = +1}},		// shift+i
 	{MODKEY|ShiftMask,		43,		incnmaster,		{.i = -1}},		// shift+d
+	{MODKEY|ShiftMask,		43,		incnmaster,		{.i = 0}},		// shift+n
 	{MODKEY,				44,		setmfact,		{.f = -0.05}},	// h
 	{MODKEY,				33,		setmfact,		{.f = +0.05}},	// l
 	{MODKEY|ShiftMask,		44,		setcfact,		{.f = -0.25}},	// shift+h
