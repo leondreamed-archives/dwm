@@ -52,13 +52,10 @@ static const Rule rules[] = {
 	{"st-256color",		NULL,   	NULL,	1 << 0,	0,	1,		0,	-1},
 	{"qutebrowser",		NULL,		NULL,	1 << 1,	0,	-1,	0,	-1},
 	{"jetbrains-idea",	NULL,		NULL,	1 << 2,	0,	-1,	0,	-1},
+	{"jetbrains-clion",	NULL,		NULL,	1 << 3,	0,	-1,	0,	-1},
 	{"Element",			NULL,		NULL,	1 << 4,	0,	1,		0,	0},
-	{"jetbrains-clion",	NULL,		NULL,	1 << 5,	0,	-1,	0,	-1},
-	{"joplin",			NULL,		NULL,	1 << 6,	0,	-1,	0,	-1},
-	{"Slack",				NULL,		NULL,	1 << 7,	0,	-1,	0,	-1},
-	{NULL,				"spterm",	NULL,	SPTAG(0),1,	-1},
-	{NULL,				"spfm",		NULL,	SPTAG(1),1,	-1},
-	{NULL,				"keepassxc",NULL,	SPTAG(2),0,	-1},
+	{"Discord",			NULL,		NULL,	1 << 5,	0,	-1,	0,	0},
+	{"Slack",				NULL,		NULL,	1 << 6,	0,	-1,	0,	-1},
 };
 
 /* layout(s) */
