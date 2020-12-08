@@ -47,15 +47,15 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/*		class				instance			title		tags	mask	isfloating	isterminal		noswallow		monitor*/
-	{"Gimp",				NULL,		NULL,	0,			1,	-1,	0,	0},
-	{"st-256color",		NULL,   	NULL,	1 << 0,	0,	1,		0,	-1},
-	{"qutebrowser",		NULL,		NULL,	1 << 1,	0,	-1,	0,	-1},
-	{"jetbrains-idea",	NULL,		NULL,	1 << 2,	0,	-1,	0,	-1},
-	{"jetbrains-clion",	NULL,		NULL,	1 << 3,	0,	-1,	0,	-1},
-	{"Element",			NULL,		NULL,	1 << 4,	0,	1,		0,	0},
-	{"Discord",			NULL,		NULL,	1 << 5,	0,	-1,	0,	0},
-	{"Slack",				NULL,		NULL,	1 << 6,	0,	-1,	0,	-1},
+	/*		class				instance			title		tags	mask	isfloating	isterminal		noswallow		monitor	ignoretransient*/
+	{"Gimp",				NULL,		NULL,	0,			1,	-1,	0,	0,	0},
+	{"st-256color",		NULL,   	NULL,	1 << 0,	0,	1,		0,	-1,	0},
+	{"qutebrowser",		NULL,		NULL,	1 << 1,	0,	-1,	0,	-1,	0},
+	{"jetbrains-idea",	NULL,		NULL,	1 << 2,	0,	-1,	0,	-1,	1},
+	{"jetbrains-clion",	NULL,		NULL,	1 << 3,	0,	-1,	0,	-1,	1},
+	{"Element",			NULL,		NULL,	1 << 4,	0,	1,		0,	0,	0},
+	{"Discord",			NULL,		NULL,	1 << 5,	0,	-1,	0,	0,	0},
+	{"Slack",				NULL,		NULL,	1 << 6,	0,	-1,	0,	-1,	0},
 };
 
 /* layout(s) */
